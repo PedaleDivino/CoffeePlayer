@@ -172,6 +172,8 @@ class AudioAndVideoDatabaseHandler(context: Context): SQLiteOpenHelper(context, 
         val listaString: ArrayList<String> = ArrayList<String>(Arrays.asList("1", "12"))
 
         return playlist
+
+        //modifica per testare
     }
 
 }

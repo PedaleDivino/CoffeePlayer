@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"
+    >
+
+    <TextView
+        android:id="@+id/mediaPlayerTitleId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="Media PLayer (▀̿Ĺ̯▀̿ ̿)"
+        android:textStyle="bold"
+        android:textSize="20sp"
+        android:layout_centerHorizontal="true"/>
+
+    <TextView
+        android:id="@+id/error404"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="No Tracks Found ¯\_(ツ)_/¯"
+        android:layout_centerInParent="true"
+        android:visibility="gone"/>
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewId"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/mediaPlayerTitleId"/>
+
+
+</RelativeLayout>

@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#E6DEFFF7"
+    >
+
+    <!-- info track START !-->
+
+    <RelativeLayout
+        android:id="@+id/top"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/trackNameId"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="20dp"
+            android:padding="20dp"
+            android:text="track name"
+            android:textSize="25sp" />
+
+        <ImageView
+            android:id="@+id/albumImageId"
+            android:layout_width="300dp"
+            android:layout_height="300dp"
+            android:layout_below="@+id/trackNameId"
+            android:layout_centerHorizontal="true"
+            android:scaleType="fitCenter"
+            android:layout_marginTop="70dp"
+            android:src="@drawable/album" />
+
+    </RelativeLayout>
+
+    <!-- info track END !-->
+
+
+
+    <!-- seekBar START !-->
+
+    <RelativeLayout
+        android:id="@+id/trackFlowId"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/top"
+        android:layout_marginTop="70dp"
+        android:padding="5dp">
+
+        <SeekBar
+            android:id="@+id/seekBarId"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="20dp"
+            android:layout_marginStart="20dp"/>
+
+        <TextView
+            android:id="@+id/currentTimeId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/seekBarId"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="40dp"
+            android:layout_marginTop="10dp"
+            android:text="0:00" />
+
+        <TextView
+            android:id="@+id/durationTimeId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/seekBarId"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="40dp"
+            android:layout_marginTop="10dp"
+            android:text="0:00" />
+
+    </RelativeLayout>
+
+    <!-- seekBar END !-->
+
+    <!-- controls bar START !-->
+
+    <RelativeLayout
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/trackFlowId"
+        android:layout_alignParentBottom="true"
+        android:layout_centerInParent="true">
+
+        <!-- skip BACK/FORWARD Controls START !-->
+
+
+        <ImageView
+
+            android:id="@+id/skipBackButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/skip_back" />
+
+        <ImageView
+
+            android:id="@+id/skipNextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@+id/skipBackButton"
+            android:src="@drawable/skip_next" />
+
+
+        <!-- skip BACK/FORWARD Controls END !-->
+
+
+        <!-- PLAY/PAUSE Controls START !-->
+
+        <ImageView
+
+            android:id="@+id/playButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@+id/skipNextButton"
+            android:src="@drawable/play" />
+
+        <ImageView
+
+            android:id="@+id/pauseButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@+id/playButton"
+            android:src="@drawable/pause" />
+
+        <!-- PLAY/PAUSE Controls END !-->
+
+    </RelativeLayout>
+
+    <!-- controls bar END !-->
+
+</RelativeLayout>

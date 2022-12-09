@@ -17,7 +17,7 @@ val KEY_FILE_PATH: String = "file_path"
 //  NOMI COLONNE DELLA TABELLA TABLE_FILE
 val KEY_PLAYLIST_ID: String = "id"
 val KEY_PLAYLIST_NAME: String = "playlist_name"
-val KEY_PLAYLIST_TYPE: String = "file"
+val KEY_PLAYLIST_FILE: String = "file"
 
 
 

@@ -136,46 +136,162 @@ class AudioAndVideoDatabaseHandler(context: Context): SQLiteOpenHelper(context, 
 
 
 
-    //DUAGIDUGADHAWUID
-    /*var id: Int?=null
-    var playlistName: String?=null
-    var playlist: ArrayList<AudioAndVideo> = ArrayList()*/
+    //  FUNZIONI CHE LAVORANO SULLA TABELLA DELLE PLAYLIST
 
-    fun translatePlaylistToString(playlist: Playlist): String {
-        var stringedPlaylist: String
-        stringedPlaylist = "${playlist.id}:${playlist.playlistName}:"
+    /*
+    CREATE
+     */
 
-        for (i in 0 until playlist.playlistElements.size-1) {
-            stringedPlaylist = "${stringedPlaylist}${playlist.playlistElements[i]}-"
-        }
+    //  Funzione che aggiunge una playlist alla tabella delle playlist (la playlist è passata come parametro)
+    fun createPlaylist(playlist: Playlist) {
+        var db: SQLiteDatabase = writableDatabase
 
-        var num = playlist.playlistElements.size-1
+        var stringedPlaylist = translatePlaylistElementsToString(playlist.playlistElements)
 
-        stringedPlaylist = "${stringedPlaylist}${playlist.playlistElements[num]}"
+        var values: ContentValues = ContentValues()
+        values.put(KEY_PLAYLIST_NAME, playlist.playlistName)
+        values.put(KEY_PLAYLIST_FILE, stringedPlaylist)
 
-        return stringedPlaylist
+        db.insert(TABLE_FILE, null, values)
+
+        db.close()
     }
 
-    fun translateStringToPlaylist(stringedPlaylist: String): Playlist {
-        var playlist: Playlist = Playlist()
 
-        var lista: List<String> = stringedPlaylist.split(":")
+    /*
+    READ
+     */
 
-        playlist.id = lista[0].toInt()
-        playlist.playlistName = lista[1]
+    //  Funzione che ritorna una playlist
+    //  (l'ID della playlist è passata come parametro)
+    @SuppressLint("Range")
+    fun readAPlaylist(id: Int): Playlist {
+        var db: SQLiteDatabase = readableDatabase
+        var cursor: Cursor = db.query(TABLE_PLAYLIST, null, KEY_FILE_ID+"=?", arrayOf(id.toString()), null, null, null, null)
 
-        var listaPlaylist: List<String> = lista[2].split("-")
+        cursor.moveToFirst()
 
-        //playlist.playlistElements = ArrayList<String>(Arrays.asList(listaPlaylist))
+        var playlist = Playlist()
 
-        //ArrayList<String> listaString = new ArrayList<String>(Arrays.asList("1", "12"));
-        val listaString: ArrayList<String> = ArrayList<String>(Arrays.asList("1", "12"))
+        playlist.id = id
+        playlist.playlistName = cursor.getString(cursor.getColumnIndex(KEY_PLAYLIST_NAME))
+
+        var stringedPlaylistElements = cursor.getString(cursor.getColumnIndex(KEY_PLAYLIST_FILE))
+        playlist.playlistElements = translateStringToPlaylistElements(stringedPlaylistElements)
 
         return playlist
+    }
 
-        //modifica per testare
+    //  Funzione che ritorna un array di playlist contenente tutti le playlist che abbiamo aggiunto alla tabella
+    @SuppressLint("Range")
+    fun readPlaylists(): ArrayList<Playlist> {
+        var db: SQLiteDatabase = readableDatabase
+        var list: ArrayList<Playlist> = ArrayList()
+        var selectAll = "SELECT * FROM $TABLE_PLAYLIST"
+        var cursor: Cursor = db.rawQuery(selectAll, null)
 
-        //modifica per branch prova
+        if (cursor.moveToFirst()) {
+            do {
+                var playlist=Playlist()
+                playlist.id=cursor.getInt(cursor.getColumnIndex(KEY_PLAYLIST_ID))
+                playlist.playlistName = cursor.getString(cursor.getColumnIndex(KEY_PLAYLIST_NAME))
+
+                var stringedPlaylistElements = cursor.getString(cursor.getColumnIndex(KEY_PLAYLIST_FILE))
+                playlist.playlistElements = translateStringToPlaylistElements(stringedPlaylistElements)
+
+                list.add(playlist)
+            } while (cursor.moveToNext())
+        }
+        return list
+    }
+
+
+    /*
+    UPDATE
+     */
+
+    //  Funzione che aggiunge un elemento a una playlist
+    //  (la playlist e l'id del file dell'elemento sono passati per parametro)
+    fun addElementToPlaylist(playlist: Playlist, idFile: Int) {
+        var db: SQLiteDatabase = writableDatabase
+
+        playlist.playlistElements.add(idFile.toString())
+
+        var stringedPlaylistElements = translatePlaylistElementsToString(playlist.playlistElements)
+
+        var update = ContentValues()
+        update.put(KEY_PLAYLIST_FILE, stringedPlaylistElements)
+        db.update(TABLE_PLAYLIST, update, KEY_PLAYLIST_ID+"=?", arrayOf(playlist.id.toString()))
+
+        db.close()
+    }
+
+    /*
+    DELETE
+     */
+
+    //  Funzione che elimina dal database una playlist che ha come ID il valore passato come parametro
+    fun deletePlaylist(id: Int) {
+        var db: SQLiteDatabase = writableDatabase
+        db.delete(TABLE_PLAYLIST, KEY_FILE_ID+"=?", arrayOf(id.toString()))
+
+        db.close()
+    }
+
+    //  Funzione che elimina un elemento dalla playlist
+    //  (la playlist e l'id del file dell'elemento sono passati per parametro)
+    fun removeElementFromPlaylist(playlist: Playlist, idFile: Int) {
+        var db: SQLiteDatabase = writableDatabase
+
+        var idFileStringed = idFile.toString()
+
+        for (i in 0 until playlist.playlistElements.size) {
+            if (playlist.playlistElements[i]==idFileStringed) {
+                playlist.playlistElements.removeAt(i)
+                break
+            }
+        }
+        var stringedPlaylistElements = translatePlaylistElementsToString(playlist.playlistElements)
+
+        var update = ContentValues()
+        update.put(KEY_PLAYLIST_FILE, stringedPlaylistElements)
+        db.update(TABLE_PLAYLIST, update, KEY_PLAYLIST_ID+"=?", arrayOf(playlist.id.toString()))
+
+        db.close()
+    }
+
+
+    /*
+    FUNZIONI DI APPOGGIO
+     */
+
+    //  Funzione che ritorna gli elementi di una playlist trasformati in una stringa per semplificare la loro gestione nel database
+    //  (vengono passati come parametro gli elementi della playlist)
+    fun translatePlaylistElementsToString(playlistElements: ArrayList<String>): String {
+        var stringedPlaylistElements: String
+
+        stringedPlaylistElements = "${playlistElements[0]}-"
+
+        for (i in 1 until playlistElements.size-1) {
+            stringedPlaylistElements = "${stringedPlaylistElements}${playlistElements[i]}-"
+        }
+
+        var num = playlistElements.size-1
+
+        stringedPlaylistElements = "${stringedPlaylistElements}${playlistElements[num]}"
+
+        return stringedPlaylistElements
+    }
+
+    //  Funzione che ritorna la stringa contenente gli elementi della playlist trasformata in una arraylist di stringhe
+    //  (la stringa contenente gli elementi della playlist è passata come parametro)
+    fun translateStringToPlaylistElements(stringedPlaylist: String): ArrayList<String> {
+
+        var listaPlaylist: List<String> = stringedPlaylist.split("-")
+
+        var stringedPlaylistElements: ArrayList<String> = ArrayList<String>(listaPlaylist)
+
+        return stringedPlaylistElements
     }
 
 }

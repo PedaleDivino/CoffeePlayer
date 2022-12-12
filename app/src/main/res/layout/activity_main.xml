@@ -12,9 +12,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:text="Media PLayer (▀̿Ĺ̯▀̿ ̿)"
+        android:text="Media Player ☕"
         android:textStyle="bold"
-        android:textSize="20sp"
+        android:textSize="30sp"
         android:layout_centerHorizontal="true"/>
 
     <TextView
@@ -37,13 +37,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:backgroundTint="@color/seekBar"
-        android:text="add an ass" />
+        android:text="add tracks" />
+
 
     <RelativeLayout
+        android:id="@+id/miniplayer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true">
+        android:layout_above="@+id/navbar"
+        android:background="@drawable/mini_player">
 
         <ImageView
             android:id="@+id/iconTracksId"
@@ -59,9 +61,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Track_Name"
+            android:textStyle="bold"
             android:layout_toEndOf="@+id/iconTracksId"
             android:layout_marginStart="5dp"
             android:layout_centerVertical="true"
+            android:textColor="@color/mainBackground"
             />
 
         <ImageView
@@ -91,6 +95,32 @@
             android:visibility="gone" />
 
     </RelativeLayout>
+
+    <!--
+    <RelativeLayout
+        android:id="@+id/navbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/navbar">
+
+
+        <ImageView
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:src="@drawable/skip_main" />
+
+        <ImageView
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/play_main"
+            android:visibility="visible" />
+
+
+    </RelativeLayout>  -->
 
 
 </RelativeLayout>

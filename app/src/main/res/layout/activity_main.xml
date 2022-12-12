@@ -133,5 +133,14 @@
         android:layout_marginBottom="152dp"
         android:text="Button" />
 
+    <Button
+        android:id="@+id/prova2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="49dp"
+        android:text="Prova" />
+
 
 </RelativeLayout>

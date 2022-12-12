@@ -40,6 +40,7 @@ class SassariMusic : AppCompatActivity() {
                 Toast.makeText(this, "File selezionato", Toast.LENGTH_SHORT).show()
                 val addTracksInt : Intent = Intent(this, add_tracks::class.java)
                 addTracksInt.putExtra("Uri", uri.toString())
+                addTracksInt.putExtra("Type", type)
                 startActivity(addTracksInt)
             }
         } else {

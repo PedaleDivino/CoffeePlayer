@@ -68,7 +68,7 @@ class AudioAndVideoDatabaseHandler(context: Context): SQLiteOpenHelper(context, 
         cursor.moveToFirst()                   //  Punto il cursore alla prima riga del risultato che gli ha dato la query (in questo caso è l'unica riga)
 
         var file = AudioAndVideo()             //  Variabile "file" di tipo AudioAndVideo
-        //NON SO ANCORA SE LA VOGLIAMO  file.id = cursor.getInt(cursor.getColumnIndex(KEY_FILE_ID))             //  Passo alla variabile file l'id del file desiderato
+        file.id = cursor.getInt(cursor.getColumnIndex(KEY_FILE_ID))             //  Passo alla variabile file l'id del file desiderato
         file.fileName = cursor.getString(cursor.getColumnIndex(KEY_FILE_NAME))          //  Passo alla variabile file il nome del file desiderato (preso dalla tabella dei file)
         file.fileType = cursor.getString(cursor.getColumnIndex(KEY_FILE_TYPE))          //  Passo alla variabile file il tipo del file desiderato (preso dalla tabella dei file)
         file.filePath = cursor.getString(cursor.getColumnIndex(KEY_FILE_PATH))          //  Passo alla variabile file il path del file desiderato (preso dalla tabella dei file)

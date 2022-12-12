@@ -14,16 +14,19 @@ import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import com.example.mediaplayer.DB.AudioAndVideo
+import com.example.mediaplayer.DB.AudioAndVideoDatabaseHandler
 import kotlinx.android.synthetic.main.activity_main.*
 
 
 class MainActivity : AppCompatActivity() {
 
     var disc: ImageView? = null
-
+    var dbHandler : AudioAndVideoDatabaseHandler ?= null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        dbHandler = AudioAndVideoDatabaseHandler(this)
 
         //disc = findViewById<ImageView>(R.id.albumImageId)
         //discAnimation()
@@ -33,6 +36,10 @@ class MainActivity : AppCompatActivity() {
         }
         prova.setOnClickListener(){
             val intent: Intent = Intent(this, SassariMusic::class.java)
+            startActivity(intent)
+        }
+        prova2.setOnClickListener(){
+            val intent: Intent = Intent(this, ProvaDB::class.java)
             startActivity(intent)
         }
     }

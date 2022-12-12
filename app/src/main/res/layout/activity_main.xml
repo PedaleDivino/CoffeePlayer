@@ -3,7 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    android:background="@color/mainBackground">
 
 
     <TextView
@@ -31,12 +32,65 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/mediaPlayerTitleId"/>
 
-    <Button android:id="@+id/aaa"
+    <Button
+        android:id="@+id/aaa"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:backgroundTint="@color/seekBar"
-        android:text="add an ass"/>
+        android:text="add an ass" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true">
+
+        <ImageView
+            android:id="@+id/iconTracksId"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/waves"
+            android:layout_marginStart="5dp"
+            android:layout_centerVertical="true"
+            />
+
+        <TextView
+            android:id="@+id/trackNameId"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Track_Name"
+            android:layout_toEndOf="@+id/iconTracksId"
+            android:layout_marginStart="5dp"
+            android:layout_centerVertical="true"
+            />
+
+        <ImageView
+
+            android:id="@+id/skip_main"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:src="@drawable/skip_main" />
+
+        <ImageView
+
+            android:id="@+id/play_main"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toStartOf="@id/skip_main"
+            android:src="@drawable/play_main"
+            android:visibility="visible" />
+
+        <ImageView
+
+            android:id="@+id/pause_main"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toStartOf="@id/skip_main"
+            android:src="@drawable/pause_main"
+            android:visibility="gone" />
+
+    </RelativeLayout>
 
 
 </RelativeLayout>

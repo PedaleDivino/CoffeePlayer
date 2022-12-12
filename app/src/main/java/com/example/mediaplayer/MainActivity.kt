@@ -21,10 +21,10 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.player_play)
+        setContentView(R.layout.activity_main)
 
-        disc = findViewById<ImageView>(R.id.albumImageId)
-        discAnimation()
+        //disc = findViewById<ImageView>(R.id.albumImageId)
+        //discAnimation()
         var bottone : Button = findViewById(R.id.aaa)
         bottone.setOnClickListener(){
             requestRuntimePermission()

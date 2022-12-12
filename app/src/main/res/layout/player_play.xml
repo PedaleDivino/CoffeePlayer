@@ -5,9 +5,6 @@
     android:background="#E6DEFFF7"
     >
 
-    <Button android:id="@+id/aaa"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
 
     <!-- info track START !-->
 
@@ -60,7 +57,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginEnd="20dp"
-            android:layout_marginStart="20dp"/>
+            android:layout_marginStart="20dp"
+            android:thumbTint="@color/seekBar"/>
 
         <TextView
             android:id="@+id/currentTimeId"
@@ -114,7 +112,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_toEndOf="@+id/skipBackButton"
+            android:layout_toEndOf="@+id/playButton"
             android:src="@drawable/skip_next" />
 
 
@@ -129,8 +127,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_toEndOf="@+id/skipNextButton"
-            android:src="@drawable/play" />
+            android:layout_toEndOf="@+id/skipBackButton"
+            android:src="@drawable/play"
+            android:visibility="visible" />
 
         <ImageView
 
@@ -138,8 +137,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_toEndOf="@+id/playButton"
-            android:src="@drawable/pause" />
+            android:layout_toEndOf="@+id/skipBackButton"
+            android:src="@drawable/pause"
+            android:visibility="gone" />
 
         <!-- PLAY/PAUSE Controls END !-->
 

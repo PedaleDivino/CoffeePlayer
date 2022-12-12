@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -96,42 +97,86 @@
 
     </RelativeLayout>
 
-    <!--
+
     <RelativeLayout
-        android:id="@+id/navbar"
+        android:id="@+id/appnavbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:background="@drawable/navbar">
 
 
-        <ImageView
+        <!-- <LinearLayout
 
+            android:id="@+id/appnavbarleft"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:src="@drawable/skip_main" />
+            android:layout_alignParentStart="true"
+            android:layout_weight="0.33">
 
-        <ImageView
+            <ImageView
+                android:id="@+id/add"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/add_tracks"/>
 
+            <TextView
+                android:id="@+id/addText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.33"
+                android:text="add" />
+
+        </LinearLayout>
+
+        <LinearLayout
+
+            android:id="@+id/appnavbarcenter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/play_main"
-            android:visibility="visible" />
+            android:layout_centerHorizontal="true">
+
+            <ImageView
+                android:id="@+id/home"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.33"
+                android:src="@drawable/home" />
+
+            <TextView
+                android:id="@+id/homeText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.33"
+                android:text="home"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+
+            android:id="@+id/appnavbarright"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true">
+
+            <ImageView
+                android:id="@+id/smth"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/smth"
+                android:layout_centerHorizontal="true"
+                />
+
+            <TextView
+                android:id="@+id/smthText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="smth"/>
+
+        </LinearLayout> -->
 
 
-    </RelativeLayout>  -->
-
-    <Button
-        android:id="@+id/prova"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/aaa"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="141dp"
-        android:layout_marginBottom="152dp"
-        android:text="Button" />
+    </RelativeLayout>
 
 
 </RelativeLayout>

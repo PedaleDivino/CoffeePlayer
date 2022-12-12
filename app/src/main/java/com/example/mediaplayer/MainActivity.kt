@@ -2,6 +2,7 @@ package com.example.mediaplayer
 
 
 import android.Manifest.permission.READ_EXTERNAL_STORAGE
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.animation.Animation
@@ -13,6 +14,7 @@ import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import kotlinx.android.synthetic.main.activity_main.*
 
 
 class MainActivity : AppCompatActivity() {
@@ -25,9 +27,13 @@ class MainActivity : AppCompatActivity() {
 
         //disc = findViewById<ImageView>(R.id.albumImageId)
         //discAnimation()
-        var bottone : Button = findViewById(R.id.aaa)
+        val bottone : Button = findViewById(R.id.aaa)
         bottone.setOnClickListener(){
             requestRuntimePermission()
+        }
+        prova.setOnClickListener(){
+            val intent: Intent = Intent(this, SassariMusic::class.java)
+            startActivity(intent)
         }
     }
 
@@ -45,9 +51,9 @@ class MainActivity : AppCompatActivity() {
 
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == 113)
-                if (grantResults[0] == PackageManager.PERMISSION_GRANTED)
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     Toast.makeText(this, "Permission Granted", Toast.LENGTH_LONG).show()
-                else {
+                }else {
                     Toast.makeText(this, "Permission Denied", Toast.LENGTH_LONG).show()
                 }
     }
@@ -68,13 +74,13 @@ class MainActivity : AppCompatActivity() {
 
     fun discAnimation() {
 
-        var rotate = AnimationUtils.loadAnimation(this, R.anim.rotation_disc)
+        val rotate = AnimationUtils.loadAnimation(this, R.anim.rotation_disc)
         rotate.setAnimationListener(object : AnimationListener {
             override fun onAnimationStart(p0: Animation?) {
             }
 
             override fun onAnimationEnd(p0: Animation?) {
-                var continueRotate = AnimationUtils.loadAnimation(this@MainActivity, R.anim.infinite_rotation_disc)
+                val continueRotate = AnimationUtils.loadAnimation(this@MainActivity, R.anim.infinite_rotation_disc)
                 continueRotate.setInterpolator(LinearInterpolator())
                 disc?.animation = continueRotate
             }

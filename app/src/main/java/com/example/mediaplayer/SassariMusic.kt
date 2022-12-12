@@ -18,12 +18,7 @@ class SassariMusic : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        //val add : Button = findViewById(R.id.AddButton)
-
-//        add.setOnClickListener(){
-//            callChooseFileFromDevice()
-//        }
+        callChooseFileFromDevice()
     }
 
     private fun callChooseFileFromDevice(){
@@ -42,17 +37,14 @@ class SassariMusic : AppCompatActivity() {
                 val uri: Uri? = data.data
                 val cR: ContentResolver = this.getContentResolver()
                 val type = cR.getType(uri!!)
-//                if (type == "audio/mpeg"){
-//                    val music = MediaPlayer.create(this, uri)
-//                    music.start()
-//                } else if (type == "video/mp4"){
-//                    val video : VideoView = findViewById(R.id.videoView2)
-//                    video.setVideoURI(uri)
-//                    video.start()
-//                    video.setMediaController(MediaController(this))
-//                }
-                Toast.makeText(this, "MIME type: ", Toast.LENGTH_LONG).show()
+                Toast.makeText(this, "File selezionato", Toast.LENGTH_SHORT).show()
+                val addTracksInt : Intent = Intent(this, add_tracks::class.java)
+                addTracksInt.putExtra("Uri", uri.toString())
+                startActivity(addTracksInt)
             }
+        } else {
+            Toast.makeText(this, "Non è stato selezionato nessun file", Toast.LENGTH_LONG).show()
+            startActivity(Intent(this, MainActivity::class.java))
         }
     }
 }

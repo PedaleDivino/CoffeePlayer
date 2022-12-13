@@ -1,12 +1,16 @@
 package com.example.mediaplayer
 
 import android.content.Context
+import android.media.MediaPlayer
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mediaplayer.DB.AudioAndVideo
+import com.example.mediaplayer.DB.AudioAndVideoDatabaseHandler
 
 class AudioAndVideoAdapter(private var list: ArrayList<AudioAndVideo>, private val context: Context): RecyclerView.Adapter<AudioAndVideoAdapter.ViewHolder>() {
 
@@ -31,13 +35,60 @@ class AudioAndVideoAdapter(private var list: ArrayList<AudioAndVideo>, private v
     inner class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView), View.OnClickListener {
         var fileList = list
         var fileName = itemView.findViewById(R.id.trackNameId) as TextView
+        var filePath = itemView.findViewById(R.id.trackPathId) as TextView
 
-        override fun onClick(p0: View?) {
-            TODO("Not yet implemented")
-        }
+        var dbHandler : AudioAndVideoDatabaseHandler?= null
 
         fun bindView(file: AudioAndVideo) {
             fileName.text = file.fileName
+            filePath.text = file.filePath
+            fileName.setOnClickListener(this)
+        }
+
+        override fun onClick(p0: View?) {
+            var todoPosition: Int = adapterPosition
+            when(p0!!.id) {
+                fileName.id -> {
+
+                    //Toast.makeText(context, "test", Toast.LENGTH_LONG).show()
+
+                    //val uri: Uri =  Uri.parse(filePath.text.toString())
+
+                    Toast.makeText(context, "prima della lettura", Toast.LENGTH_LONG).show()
+                    var file = getFile(fileList[todoPosition].id!!)
+                    //Toast.makeText(context, file.fileName.toString(), Toast.LENGTH_LONG).show()
+                    val uri: Uri =  Uri.parse(file.filePath.toString())
+
+                    Toast.makeText(context, uri.toString(), Toast.LENGTH_LONG).show()
+                    //Toast.makeText(context, uri.path.toString(), Toast.LENGTH_LONG).show()
+                    //var file: File = File(uri.path)
+                    //if (File(uri.path).exists()) {
+                    val musicPlayer = MediaPlayer.create(context, uri)
+
+                    if (musicPlayer!=null) {
+                        musicPlayer.start()
+                    }
+                    else {
+                        Toast.makeText(context, "no work", Toast.LENGTH_LONG).show()
+                    }
+                    /*}
+                    else {
+                        Toast.makeText(context, "that file doesn't exist", Toast.LENGTH_LONG).show()
+                        //DOVREMMO ELIMINARE IL FILE DAL DATABASE
+                    }*/
+
+                    /*deleteTodo(todoList[todoPosition].id!!)
+                        list.removeAt(todoPosition)
+                        notifyItemRemoved(todoPosition)*/
+                }
+
+
+            }
+        }
+
+        fun getFile(id: Int): AudioAndVideo {
+            var db: AudioAndVideoDatabaseHandler = AudioAndVideoDatabaseHandler(context)
+            return db.readAtodo(id)
         }
 
     }

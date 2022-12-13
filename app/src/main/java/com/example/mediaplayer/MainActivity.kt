@@ -33,7 +33,6 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        dbHandler = AudioAndVideoDatabaseHandler(this)
 
         fileListItem = ArrayList<AudioAndVideo>()
         adapter = AudioAndVideoAdapter(fileListItem!!, this) //INIZIALIZZO LA VARIAILE ADAPTER INSERENDO IL VALORE DELLA CLASSE ToDoListApadter (CHE HA BISOGNO DI ARGOMENTI)
@@ -54,7 +53,7 @@ class MainActivity : AppCompatActivity() {
             file.fileName = t.fileName
             file.id = t.id
             file.filePath = t.filePath
-            file.fileType = t.filePath
+            file.fileType = t.fileType
 
             //Log.d("Lista", t.toDoName.toString())
 

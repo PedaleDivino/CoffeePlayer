@@ -84,10 +84,11 @@ class AudioAndVideoDatabaseHandler(context: Context): SQLiteOpenHelper(context, 
         var list: ArrayList<AudioAndVideo> = ArrayList()                       //  Variabile "list" che è un ArrayList di tipo AudioAndVideo che conterrà tutti i dati dei file salvati nel database
         var selectAll = "SELECT * FROM $TABLE_FILE"                            //  Variabile "selectAll" di tipo stringa che salva la query da porre al database (che in questo caso richiede tutta la tabella TABLE_FILE)
         var cursor: Cursor = db.rawQuery(selectAll, null)           //  Variabile "cursor" di tipo Cursor che fornisce un interfaccia al risultato della query che poniamo al database e richiamo di una funzione rawQuery sul database
-        var file=AudioAndVideo()                                               //  Variabile "file" di tipo AudioAndVideo che serve per compilare i file prima di metterli nella lista
+        //var file=AudioAndVideo()                                               //  Variabile "file" di tipo AudioAndVideo che serve per compilare i file prima di metterli nella lista
 
         if (cursor.moveToFirst()) {                                            //  Se il risultato della query non è vuota punta il cursore alla prima riga del risultato
             do {                                                                    //  Inizio di un ciclo do while
+                var file=AudioAndVideo()
                 file.id=cursor.getInt(cursor.getColumnIndex(KEY_FILE_ID))                       //  Passo alla variabile file l'id del file corrente
                 file.fileName = cursor.getString(cursor.getColumnIndex(KEY_FILE_NAME))          //  Passo alla variabile file il nome del file corrente
                 file.fileType = cursor.getString(cursor.getColumnIndex(KEY_FILE_TYPE))          //  Passo alla variabile file il tipe del file corrente

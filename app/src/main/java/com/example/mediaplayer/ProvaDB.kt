@@ -11,7 +11,7 @@ class ProvaDB : AppCompatActivity() {
         setContentView(R.layout.activity_prova_db)
         var dbHandler : AudioAndVideoDatabaseHandler = AudioAndVideoDatabaseHandler(this)
         button.setOnClickListener(){
-            var file = dbHandler.readAtodo(1)
+            var file = dbHandler.readAtodo(2)
             textView.setText(file.fileName)
             textView2.setText(file.fileType)
             textView3.setText(file.filePath)

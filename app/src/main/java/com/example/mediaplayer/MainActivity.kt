@@ -14,6 +14,8 @@ import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.mediaplayer.DB.AudioAndVideo
 import com.example.mediaplayer.DB.AudioAndVideoDatabaseHandler
 import kotlinx.android.synthetic.main.activity_main.*
@@ -23,10 +25,43 @@ class MainActivity : AppCompatActivity() {
 
     var disc: ImageView? = null
     var dbHandler : AudioAndVideoDatabaseHandler ?= null
+    private var adapter: AudioAndVideoAdapter?=null
+    private var fileList: ArrayList<AudioAndVideo>?=null
+    private var fileListItem: ArrayList<AudioAndVideo>?=null
+    private var layoutManager: RecyclerView.LayoutManager?=null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         dbHandler = AudioAndVideoDatabaseHandler(this)
+
+        fileListItem = ArrayList<AudioAndVideo>()
+        adapter = AudioAndVideoAdapter(fileListItem!!, this) //INIZIALIZZO LA VARIAILE ADAPTER INSERENDO IL VALORE DELLA CLASSE ToDoListApadter (CHE HA BISOGNO DI ARGOMENTI)
+        fileList = ArrayList<AudioAndVideo>()
+        layoutManager = LinearLayoutManager(this) //INIZIALIZZO LAYOUTMANAGER CON UN MANAGER DI TIPO VERTICALE (HA BISOGNO DEL CONTESTO)
+
+
+        recyclerViewId.layoutManager=layoutManager //ASSOCIO IL LAYOUT MANAGER DA ME CREATO CON IL RECYCLEVIEWID DELL'ACTIVITY
+        recyclerViewId.adapter=adapter //ASSOCIO L'ADAPTER DA ME CREATO CON QUELLO DEL RECYCLEVIEWID DELL'ACTIVITY
+
+        dbHandler= AudioAndVideoDatabaseHandler(this)
+
+        fileList = dbHandler!!.readToDo()
+        fileList!!.reverse()
+
+        for(t in fileList!!.iterator()) {
+            val file = AudioAndVideo()
+            file.fileName = t.fileName
+            file.id = t.id
+            file.filePath = t.filePath
+            file.fileType = t.filePath
+
+            //Log.d("Lista", t.toDoName.toString())
+
+            fileListItem!!.add(file)
+        }
+
+
 
         //disc = findViewById<ImageView>(R.id.albumImageId)
         //discAnimation()

@@ -21,7 +21,7 @@ class add_tracks : AppCompatActivity() {
         var extraUri : String= ""
         var typeFile : String = ""
         if (extras != null) {
-            extraUri = extras.getString("Uri").toString()
+            extraUri = extras.getString("Path").toString()
             typeFile = extras.getString("Type").toString()
         }
         addTracks.setOnClickListener(){
@@ -31,12 +31,10 @@ class add_tracks : AppCompatActivity() {
                 Toast.makeText(this, "Else", Toast.LENGTH_SHORT).show()
                 val fileName : String = fileNameEdit.text.toString()
                 if (typeFile == "audio/mpeg"){
-                    Toast.makeText(this, "File audio prima", Toast.LENGTH_SHORT).show()
                     val file = AudioAndVideo(null, fileName, "mp3", extraUri)
                     dbHandler!!.createFile(file)
                     Toast.makeText(this, "File audio aggiunto", Toast.LENGTH_LONG).show()
                 } else {
-                    Toast.makeText(this, "File video prima", Toast.LENGTH_SHORT).show()
                     val file = AudioAndVideo(null, fileName, "mp4", extraUri)
                     dbHandler!!.createFile(file)
                     Toast.makeText(this, "File video aggiunto", Toast.LENGTH_LONG).show()

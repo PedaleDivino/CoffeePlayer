@@ -1,8 +1,14 @@
 package com.example.mediaplayer
 
+import android.content.ContentUris
 import android.content.Context
+import android.database.Cursor
 import android.media.MediaPlayer
 import android.net.Uri
+import android.os.Build
+import android.os.Environment
+import android.provider.DocumentsContract
+import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -49,20 +55,10 @@ class AudioAndVideoAdapter(private var list: ArrayList<AudioAndVideo>, private v
             var todoPosition: Int = adapterPosition
             when(p0!!.id) {
                 fileName.id -> {
-
-                    //Toast.makeText(context, "test", Toast.LENGTH_LONG).show()
-
-                    //val uri: Uri =  Uri.parse(filePath.text.toString())
-
-                    Toast.makeText(context, "prima della lettura", Toast.LENGTH_LONG).show()
                     var file = getFile(fileList[todoPosition].id!!)
-                    //Toast.makeText(context, file.fileName.toString(), Toast.LENGTH_LONG).show()
                     val uri: Uri =  Uri.parse(file.filePath.toString())
 
                     Toast.makeText(context, uri.toString(), Toast.LENGTH_LONG).show()
-                    //Toast.makeText(context, uri.path.toString(), Toast.LENGTH_LONG).show()
-                    //var file: File = File(uri.path)
-                    //if (File(uri.path).exists()) {
                     val musicPlayer = MediaPlayer.create(context, uri)
 
                     if (musicPlayer!=null) {
@@ -71,15 +67,6 @@ class AudioAndVideoAdapter(private var list: ArrayList<AudioAndVideo>, private v
                     else {
                         Toast.makeText(context, "no work", Toast.LENGTH_LONG).show()
                     }
-                    /*}
-                    else {
-                        Toast.makeText(context, "that file doesn't exist", Toast.LENGTH_LONG).show()
-                        //DOVREMMO ELIMINARE IL FILE DAL DATABASE
-                    }*/
-
-                    /*deleteTodo(todoList[todoPosition].id!!)
-                        list.removeAt(todoPosition)
-                        notifyItemRemoved(todoPosition)*/
                 }
 
 
@@ -90,7 +77,5 @@ class AudioAndVideoAdapter(private var list: ArrayList<AudioAndVideo>, private v
             var db: AudioAndVideoDatabaseHandler = AudioAndVideoDatabaseHandler(context)
             return db.readAtodo(id)
         }
-
     }
-
 }

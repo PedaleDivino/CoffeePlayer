@@ -4,6 +4,7 @@ package com.example.mediaplayer
 import android.Manifest.permission.READ_EXTERNAL_STORAGE
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.media.MediaPlayer
 import android.os.Bundle
 import android.view.animation.Animation
 import android.view.animation.Animation.AnimationListener
@@ -35,7 +36,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         fileListItem = ArrayList<AudioAndVideo>()
-        adapter = AudioAndVideoAdapter(fileListItem!!, this) //INIZIALIZZO LA VARIAILE ADAPTER INSERENDO IL VALORE DELLA CLASSE ToDoListApadter (CHE HA BISOGNO DI ARGOMENTI)
+        adapter = AudioAndVideoAdapter(fileListItem!!, this, MediaPlayer()) //INIZIALIZZO LA VARIAILE ADAPTER INSERENDO IL VALORE DELLA CLASSE ToDoListApadter (CHE HA BISOGNO DI ARGOMENTI)
         fileList = ArrayList<AudioAndVideo>()
         layoutManager = LinearLayoutManager(this) //INIZIALIZZO LAYOUTMANAGER CON UN MANAGER DI TIPO VERTICALE (HA BISOGNO DEL CONTESTO)
 

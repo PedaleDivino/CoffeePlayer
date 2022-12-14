@@ -1,14 +1,8 @@
 package com.example.mediaplayer
 
-import android.content.ContentUris
 import android.content.Context
-import android.database.Cursor
 import android.media.MediaPlayer
 import android.net.Uri
-import android.os.Build
-import android.os.Environment
-import android.provider.DocumentsContract
-import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.mediaplayer.DB.AudioAndVideo
 import com.example.mediaplayer.DB.AudioAndVideoDatabaseHandler
 
-class AudioAndVideoAdapter(private var list: ArrayList<AudioAndVideo>, private val context: Context): RecyclerView.Adapter<AudioAndVideoAdapter.ViewHolder>() {
+class AudioAndVideoAdapter(private var list: ArrayList<AudioAndVideo>, private val context: Context, var musicPlayer : MediaPlayer): RecyclerView.Adapter<AudioAndVideoAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(context).inflate(R.layout.recycler_tracks, parent, false)
@@ -59,13 +53,17 @@ class AudioAndVideoAdapter(private var list: ArrayList<AudioAndVideo>, private v
                     val uri: Uri =  Uri.parse(file.filePath.toString())
 
                     Toast.makeText(context, uri.toString(), Toast.LENGTH_LONG).show()
-                    val musicPlayer = MediaPlayer.create(context, uri)
 
-                    if (musicPlayer!=null) {
+                    if (musicPlayer ==null) {
+                        musicPlayer = MediaPlayer.create(context, uri)
                         musicPlayer.start()
                     }
                     else {
-                        Toast.makeText(context, "no work", Toast.LENGTH_LONG).show()
+                        if (musicPlayer.isPlaying){
+                            musicPlayer.stop()
+                        }
+                        musicPlayer = MediaPlayer.create(context, uri)
+                        musicPlayer.start()
                     }
                 }
 

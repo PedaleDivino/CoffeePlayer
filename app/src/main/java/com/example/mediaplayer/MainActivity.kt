@@ -2,9 +2,9 @@ package com.example.mediaplayer
 
 
 import android.Manifest.permission.READ_EXTERNAL_STORAGE
-import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.view.MenuItem
 import android.view.animation.Animation
 import android.view.animation.Animation.AnimationListener
 import android.view.animation.AnimationUtils
@@ -12,32 +12,63 @@ import android.view.animation.LinearInterpolator
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.annotation.IdRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
-import kotlinx.android.synthetic.main.activity_main.*
+import androidx.fragment.app.Fragment
+import androidx.viewpager.widget.ViewPager
+import com.google.android.material.bottomnavigation.BottomNavigationView
+import kotlinx.android.synthetic.*
+import kotlinx.android.synthetic.main.viewer.*
 
-
-class MainActivity : AppCompatActivity() {
-
-    var disc: ImageView? = null
+class MainActivity : AppCompatActivity(){
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.viewer)
 
-        //disc = findViewById<ImageView>(R.id.albumImageId)
-        //discAnimation()
-        val bottone : Button = findViewById(R.id.aaa)
-        bottone.setOnClickListener(){
-            requestRuntimePermission()
+        loadFragment(FragmentMain.newInstance())
+        bottom_navigation.setOnNavigationItemSelectedListener { item ->
+            var fragment : Fragment
+
+            when (item.itemId){
+
+                R.id.home -> {
+                    fragment = FragmentMain()
+                    loadFragment(fragment)
+                    true
+                }
+
+                R.id.play -> {
+                    fragment = FragmentPlayer()
+                    loadFragment(fragment)
+                    true
+                }
+                else -> {
+                    false
+                }
+
+            }
         }
-        prova.setOnClickListener(){
+
+        /*val bottone: Button = findViewById(R.id.aaa)
+        bottone.setOnClickListener() {
+            requestRuntimePermission()
+        }*/
+        /*prova.setOnClickListener(){
             val intent: Intent = Intent(this, SassariMusic::class.java)
             startActivity(intent)
-        }
+        }*/
+    } // fine OnCreate
+
+
+
+
+    fun loadFragment(fragment: Fragment){
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.viewer, fragment)
+            .commit()
     }
-
-
 
     fun requestRuntimePermission() : Boolean {
         if (ActivityCompat.checkSelfPermission(this, READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
@@ -46,6 +77,9 @@ class MainActivity : AppCompatActivity() {
         }
         return true
     }
+
+
+
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
 
@@ -57,39 +91,4 @@ class MainActivity : AppCompatActivity() {
                     Toast.makeText(this, "Permission Denied", Toast.LENGTH_LONG).show()
                 }
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    fun discAnimation() {
-
-        val rotate = AnimationUtils.loadAnimation(this, R.anim.rotation_disc)
-        rotate.setAnimationListener(object : AnimationListener {
-            override fun onAnimationStart(p0: Animation?) {
-            }
-
-            override fun onAnimationEnd(p0: Animation?) {
-                val continueRotate = AnimationUtils.loadAnimation(this@MainActivity, R.anim.infinite_rotation_disc)
-                continueRotate.setInterpolator(LinearInterpolator())
-                disc?.animation = continueRotate
-            }
-
-            override fun onAnimationRepeat(p0: Animation?) {
-            }
-        })
-        disc?.animation = rotate
-
-    }
-
 }

@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 
+<!-- Start del Fragment del player che andrà sopra l'activity Viewer -->
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".FragmentMain"
     android:background="@color/mainBackground">
 
+    <!-- nome mediaPlayer -->
 
     <TextView
         android:id="@+id/mediaPlayerTitleId"
@@ -26,6 +30,7 @@
         android:layout_centerInParent="true"
         android:visibility="gone"/>
 
+    <!-- inizio recycleView per visualizzare brani -->
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewId"
@@ -40,13 +45,15 @@
         android:layout_centerInParent="true"
         android:text="add tracks" />
 
+    <!-- Inizio miniPlayer -->
 
     <RelativeLayout
+        android:layout_above="@+id/bottom_navigation"
         android:id="@+id/miniplayer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/appnavbar"
         android:background="@drawable/mini_player">
+
 
         <ImageView
             android:id="@+id/iconTracksId"
@@ -97,22 +104,20 @@
 
     </RelativeLayout>
 
-    <RelativeLayout
-        android:id="@+id/appnavbar"
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true">
+    <!-- Fine miniPlayer (utilizzo di Above per tenere il miniPlayer fisso sopra la navbar) -->
+
+    <!-- Inizio bottom NavBar -->
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottom_navigation"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
             app:menu="@menu/bottom_navbar" />
 
-    </RelativeLayout>
-
-
+    <!-- Fine bottom NavBar  (utilizzo del parentBottom per tenerlo fisso nella parte bassa dello schermo) -->
 
 </RelativeLayout>
+
+
+    <!-- Fine del Fragment del player che andrà sopra l'activity Viewer -->

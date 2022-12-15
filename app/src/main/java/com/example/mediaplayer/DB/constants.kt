@@ -5,8 +5,8 @@ package com.example.mediaplayer.DB
 //  DATI (necessari) E CARATTERISTICHE DEL NOSTRO DATABASER
 val DATABASE_VERSION: Int = 1
 val DATABASE_NAME: String = "mediaplayer.db"
-val TABLE_FILE: String = "Audio_e_Video.db"
-val TABLE_PLAYLIST: String = "Playlist.db"
+val TABLE_FILE: String = "Audio_e_Video"
+val TABLE_PLAYLIST: String = "Playlist"
 
 //  NOMI COLONNE DELLA TABELLA TABLE_FILE
 val KEY_FILE_ID: String = "id"

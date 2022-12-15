@@ -27,5 +27,16 @@
         android:layout_toEndOf="@+id/iconTracksId"
         android:layout_centerVertical="true"
         />
+
+    <TextView
+        android:id="@+id/trackPathId"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="12dp"
+        android:text="Track_Name"
+        android:visibility="gone"
+        android:layout_toEndOf="@+id/iconTracksId"
+        android:layout_centerVertical="true"
+        />
     
 </RelativeLayout>

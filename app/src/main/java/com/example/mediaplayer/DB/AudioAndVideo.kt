@@ -8,7 +8,7 @@ class AudioAndVideo() {
     var filePath: String?=null
 
 
-    constructor(id: Int, fileName: String, fileType: String, filePath: String): this(){
+    constructor(id: Int?, fileName: String, fileType: String, filePath: String): this(){
         this.id=id
         this.fileName=fileName
         this.fileType=fileType

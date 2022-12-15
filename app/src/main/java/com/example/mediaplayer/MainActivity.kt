@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.viewer.*
+//
 
 class MainActivity : AppCompatActivity(){
 

@@ -81,12 +81,14 @@ class MainActivity : AppCompatActivity() {
 
 
 
-    fun requestRuntimePermission() : Boolean {
+    fun requestRuntimePermission(){
         if (ActivityCompat.checkSelfPermission(this, READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
             ActivityCompat.requestPermissions(this, arrayOf(READ_EXTERNAL_STORAGE), 113)
-            return false
         }
-        return true
+        else {
+            val intent: Intent = Intent(this, SassariMusic::class.java)
+            startActivity(intent)
+        }
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
@@ -95,6 +97,8 @@ class MainActivity : AppCompatActivity() {
         if (requestCode == 113)
                 if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     Toast.makeText(this, "Permission Granted", Toast.LENGTH_LONG).show()
+                    val intent: Intent = Intent(this, SassariMusic::class.java)
+                    startActivity(intent)
                 }else {
                     Toast.makeText(this, "Permission Denied", Toast.LENGTH_LONG).show()
                 }

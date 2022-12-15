@@ -3,38 +3,30 @@ package com.example.mediaplayer
 
 import android.Manifest.permission.READ_EXTERNAL_STORAGE
 import android.content.pm.PackageManager
+import android.media.MediaPlayer
 import android.os.Bundle
-import android.view.MenuItem
-import android.view.animation.Animation
-import android.view.animation.Animation.AnimationListener
-import android.view.animation.AnimationUtils
-import android.view.animation.LinearInterpolator
-import android.widget.Button
-import android.widget.ImageView
 import android.widget.Toast
-import androidx.annotation.IdRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
-import androidx.viewpager.widget.ViewPager
-import com.google.android.material.bottomnavigation.BottomNavigationView
-import kotlinx.android.synthetic.*
 import kotlinx.android.synthetic.main.viewer.*
 
 class MainActivity : AppCompatActivity(){
+
+    var musicMain = MediaPlayer()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.viewer)
 
-        loadFragment(FragmentMain.newInstance())
+        loadFragment(FragmentMain.newInstance(musicMain))
         bottom_navigation.setOnNavigationItemSelectedListener { item ->
             var fragment : Fragment
 
             when (item.itemId){
 
                 R.id.home -> {
-                    fragment = FragmentMain()
+                    fragment = FragmentMain(musicMain)
                     loadFragment(fragment)
                     true
                 }

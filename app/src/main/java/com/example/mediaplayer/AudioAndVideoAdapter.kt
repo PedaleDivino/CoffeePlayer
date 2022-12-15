@@ -8,11 +8,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mediaplayer.DB.AudioAndVideo
 import com.example.mediaplayer.DB.AudioAndVideoDatabaseHandler
 
-class AudioAndVideoAdapter(private var list: ArrayList<AudioAndVideo>, private val context: Context, var musicPlayer : MediaPlayer): RecyclerView.Adapter<AudioAndVideoAdapter.ViewHolder>() {
+
+class AudioAndVideoAdapter(private var list: ArrayList<AudioAndVideo>, private val context: Context, var musicPlayer: MediaPlayer, var fragment: Fragment): RecyclerView.Adapter<AudioAndVideoAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(context).inflate(R.layout.recycler_tracks, parent, false)
@@ -57,6 +59,7 @@ class AudioAndVideoAdapter(private var list: ArrayList<AudioAndVideo>, private v
                     if (musicPlayer ==null) {
                         musicPlayer = MediaPlayer.create(context, uri)
                         musicPlayer.start()
+                        MainActivity().loadFragment(FragmentMain(musicPlayer))
                     }
                     else {
                         if (musicPlayer.isPlaying){
@@ -64,6 +67,18 @@ class AudioAndVideoAdapter(private var list: ArrayList<AudioAndVideo>, private v
                         }
                         musicPlayer = MediaPlayer.create(context, uri)
                         musicPlayer.start()
+                        changeFragmentOnMusicStart(fragment)
+
+                        /*MainActivity().loadFragment(FragmentPlayer())
+
+                        val fragment: Fragment = FragmentPlayer()
+                        //var playerPlay : View = (R.layout.player_play)
+
+                        val fragmentManager: FragmentManager = getActivity().getSupportFragmentManager()
+                        val fragmentTransaction: FragmentTransaction = fragmentManager.beginTransaction()
+                        fragmentTransaction.replace(R.layout.player_play, fragment)
+                        fragmentTransaction.addToBackStack(null)
+                        fragmentTransaction.commit()*/
                     }
                 }
 
@@ -74,6 +89,10 @@ class AudioAndVideoAdapter(private var list: ArrayList<AudioAndVideo>, private v
         fun getFile(id: Int): AudioAndVideo {
             var db: AudioAndVideoDatabaseHandler = AudioAndVideoDatabaseHandler(context)
             return db.readAtodo(id)
+        }
+
+        fun changeFragmentOnMusicStart (fragment : Fragment) {
+            fragment.requireActivity().supportFragmentManager.beginTransaction().replace(R.id.viewer, FragmentPlayer()).commit()
         }
     }
 }

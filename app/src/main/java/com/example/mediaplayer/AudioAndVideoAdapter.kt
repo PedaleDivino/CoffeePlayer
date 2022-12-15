@@ -1,6 +1,7 @@
 package com.example.mediaplayer
 
 import android.content.Context
+import android.content.Intent
 import android.media.MediaPlayer
 import android.net.Uri
 import android.view.LayoutInflater
@@ -8,13 +9,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.content.ContextCompat.startActivity
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mediaplayer.DB.AudioAndVideo
 import com.example.mediaplayer.DB.AudioAndVideoDatabaseHandler
 
 
-class AudioAndVideoAdapter(private var list: ArrayList<AudioAndVideo>, private val context: Context, var musicPlayer: MediaPlayer, var fragment: Fragment): RecyclerView.Adapter<AudioAndVideoAdapter.ViewHolder>() {
+class AudioAndVideoAdapter(private var list: ArrayList<AudioAndVideo>, private val context: Context, var musicPlayer: MediaPlayer): RecyclerView.Adapter<AudioAndVideoAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(context).inflate(R.layout.recycler_tracks, parent, false)
@@ -51,7 +53,22 @@ class AudioAndVideoAdapter(private var list: ArrayList<AudioAndVideo>, private v
             var todoPosition: Int = adapterPosition
             when(p0!!.id) {
                 fileName.id -> {
-                    var file = getFile(fileList[todoPosition].id!!)
+
+                    var intent: Intent = Intent(context, PlayerActivity::class.java)
+
+                    intent.putExtra("Name", fileName.text.toString())
+                    intent.putExtra("Path", filePath.text.toString())
+
+                    startActivity(context, intent, null)
+
+
+
+
+
+
+
+
+                    /*var file = getFile(fileList[todoPosition].id!!)
                     val uri: Uri =  Uri.parse(file.filePath.toString())
 
                     Toast.makeText(context, uri.toString(), Toast.LENGTH_LONG).show()
@@ -59,7 +76,6 @@ class AudioAndVideoAdapter(private var list: ArrayList<AudioAndVideo>, private v
                     if (musicPlayer ==null) {
                         musicPlayer = MediaPlayer.create(context, uri)
                         musicPlayer.start()
-                        MainActivity().loadFragment(FragmentMain(musicPlayer))
                     }
                     else {
                         if (musicPlayer.isPlaying){
@@ -67,7 +83,6 @@ class AudioAndVideoAdapter(private var list: ArrayList<AudioAndVideo>, private v
                         }
                         musicPlayer = MediaPlayer.create(context, uri)
                         musicPlayer.start()
-                        changeFragmentOnMusicStart(fragment)
 
                         /*MainActivity().loadFragment(FragmentPlayer())
 
@@ -79,7 +94,7 @@ class AudioAndVideoAdapter(private var list: ArrayList<AudioAndVideo>, private v
                         fragmentTransaction.replace(R.layout.player_play, fragment)
                         fragmentTransaction.addToBackStack(null)
                         fragmentTransaction.commit()*/
-                    }
+                    }*/
                 }
 
 
@@ -89,10 +104,6 @@ class AudioAndVideoAdapter(private var list: ArrayList<AudioAndVideo>, private v
         fun getFile(id: Int): AudioAndVideo {
             var db: AudioAndVideoDatabaseHandler = AudioAndVideoDatabaseHandler(context)
             return db.readAtodo(id)
-        }
-
-        fun changeFragmentOnMusicStart (fragment : Fragment) {
-            fragment.requireActivity().supportFragmentManager.beginTransaction().replace(R.id.viewer, FragmentPlayer()).commit()
         }
     }
 }

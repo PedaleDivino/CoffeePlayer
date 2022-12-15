@@ -13,44 +13,39 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mediaplayer.DB.AudioAndVideo
 import com.example.mediaplayer.DB.AudioAndVideoDatabaseHandler
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_main.view.*
 
-class FragmentMain(var musicPlayer: MediaPlayer) : Fragment() {
+class FragmentMain(var musicPlayer: MediaPlayer) : AppCompatActivity() {
 
-    var disc: ImageView? = null
     var dbHandler : AudioAndVideoDatabaseHandler ?= null
     private var adapter: AudioAndVideoAdapter?=null
     private var fileList: ArrayList<AudioAndVideo>?=null
     private var fileListItem: ArrayList<AudioAndVideo>?=null
     private var layoutManager: RecyclerView.LayoutManager?=null
-    lateinit var thiscontext : Context
     //var music: MediaPlayer = musicPlayer
 
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState!!)
-    }
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
         // Inflate the layout for this fragment
-        var activityMain : View = inflater.inflate(R.layout.activity_main, container, false)
 
-        thiscontext = container!!.context
         fileListItem = ArrayList<AudioAndVideo>()
-        adapter = AudioAndVideoAdapter(fileListItem!!, thiscontext, musicPlayer, this) //INIZIALIZZO LA VARIAILE ADAPTER INSERENDO IL VALORE DELLA CLASSE ToDoListApadter (CHE HA BISOGNO DI ARGOMENTI)
+        adapter = AudioAndVideoAdapter(fileListItem!!, this, musicPlayer) //INIZIALIZZO LA VARIAILE ADAPTER INSERENDO IL VALORE DELLA CLASSE ToDoListApadter (CHE HA BISOGNO DI ARGOMENTI)
         fileList = ArrayList<AudioAndVideo>()
-        layoutManager = LinearLayoutManager(thiscontext) //INIZIALIZZO LAYOUTMANAGER CON UN MANAGER DI TIPO VERTICALE (HA BISOGNO DEL CONTESTO)
+        layoutManager = LinearLayoutManager(this) //INIZIALIZZO LAYOUTMANAGER CON UN MANAGER DI TIPO VERTICALE (HA BISOGNO DEL CONTESTO)
 
-        activityMain.recyclerViewId.layoutManager=layoutManager //ASSOCIO IL LAYOUT MANAGER DA ME CREATO CON IL RECYCLEVIEWID DELL'ACTIVITY
-        activityMain.recyclerViewId.adapter=adapter //ASSOCIO L'ADAPTER DA ME CREATO CON QUELLO DEL RECYCLEVIEWID DELL'ACTIVITY
+        recyclerViewId.layoutManager=layoutManager //ASSOCIO IL LAYOUT MANAGER DA ME CREATO CON IL RECYCLEVIEWID DELL'ACTIVITY
+        recyclerViewId.adapter=adapter //ASSOCIO L'ADAPTER DA ME CREATO CON QUELLO DEL RECYCLEVIEWID DELL'ACTIVITY
 
-        dbHandler= AudioAndVideoDatabaseHandler(thiscontext)
+        dbHandler= AudioAndVideoDatabaseHandler(this)
 
         fileList = dbHandler!!.readToDo()
         fileList!!.reverse()
@@ -69,28 +64,20 @@ class FragmentMain(var musicPlayer: MediaPlayer) : Fragment() {
 
         //disc = findViewById<ImageView>(R.id.albumImageId)
         //discAnimation()
-        val bottone : Button = activityMain.findViewById(R.id.aaa)
+        val bottone : Button = findViewById(R.id.aaa)
         bottone.setOnClickListener(){
             requestRuntimePermission()
         }
-
-        return activityMain
-    }
-
-
-    companion object {
-        //var music: MediaPlayer = MediaPlayer()
-        fun newInstance(music: MediaPlayer) = FragmentMain(music)
     }
 
 
     fun requestRuntimePermission(){
 
-        if (ActivityCompat.checkSelfPermission(thiscontext, READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
-            requestPermissions(arrayOf(READ_EXTERNAL_STORAGE), 113)
+        if (ActivityCompat.checkSelfPermission(this, READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
+            ActivityCompat.requestPermissions(this, arrayOf(READ_EXTERNAL_STORAGE), 113)
         }
         else {
-            val intent: Intent = Intent(thiscontext, SassariMusic::class.java)
+            val intent: Intent = Intent(this, SassariMusic::class.java)
             startActivity(intent)
         }
     }
@@ -100,11 +87,11 @@ class FragmentMain(var musicPlayer: MediaPlayer) : Fragment() {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == 113)
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                Toast.makeText(thiscontext, "Permission Granted", Toast.LENGTH_LONG).show()
-                val intent: Intent = Intent(thiscontext, SassariMusic::class.java)
+                Toast.makeText(this, "Permission Granted", Toast.LENGTH_LONG).show()
+                val intent: Intent = Intent(this, SassariMusic::class.java)
                 startActivity(intent)
             }else {
-                Toast.makeText(thiscontext, "Permission Denied", Toast.LENGTH_LONG).show()
+                Toast.makeText(this, "Permission Denied", Toast.LENGTH_LONG).show()
             }
     }
 }

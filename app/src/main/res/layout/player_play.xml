@@ -6,7 +6,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/over"
     android:background="#E6DEFFF7"
-    tools:context=".FragmentPlayer">
+    tools:context=".PlayerActivity">
 
 
 

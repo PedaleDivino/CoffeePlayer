@@ -21,7 +21,7 @@ import com.example.mediaplayer.DB.AudioAndVideo
 import com.example.mediaplayer.DB.AudioAndVideoDatabaseHandler
 import kotlinx.android.synthetic.main.activity_main.view.*
 
-class FragmentMain(var musicPlayer: MediaPlayer) : Fragment() {
+class FragmentMain() : Fragment() {
 
     var disc: ImageView? = null
     var dbHandler : AudioAndVideoDatabaseHandler ?= null
@@ -30,7 +30,6 @@ class FragmentMain(var musicPlayer: MediaPlayer) : Fragment() {
     private var fileListItem: ArrayList<AudioAndVideo>?=null
     private var layoutManager: RecyclerView.LayoutManager?=null
     lateinit var thiscontext : Context
-    //var music: MediaPlayer = musicPlayer
 
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -41,9 +40,12 @@ class FragmentMain(var musicPlayer: MediaPlayer) : Fragment() {
         // Inflate the layout for this fragment
         var activityMain : View = inflater.inflate(R.layout.activity_main, container, false)
 
+        var music = (activity as MainActivity).musicMain
+
+
         thiscontext = container!!.context
         fileListItem = ArrayList<AudioAndVideo>()
-        adapter = AudioAndVideoAdapter(fileListItem!!, thiscontext, musicPlayer, this) //INIZIALIZZO LA VARIAILE ADAPTER INSERENDO IL VALORE DELLA CLASSE ToDoListApadter (CHE HA BISOGNO DI ARGOMENTI)
+        adapter = AudioAndVideoAdapter(fileListItem!!, thiscontext, music, this) //INIZIALIZZO LA VARIAILE ADAPTER INSERENDO IL VALORE DELLA CLASSE ToDoListApadter (CHE HA BISOGNO DI ARGOMENTI)
         fileList = ArrayList<AudioAndVideo>()
         layoutManager = LinearLayoutManager(thiscontext) //INIZIALIZZO LAYOUTMANAGER CON UN MANAGER DI TIPO VERTICALE (HA BISOGNO DEL CONTESTO)
 
@@ -80,7 +82,7 @@ class FragmentMain(var musicPlayer: MediaPlayer) : Fragment() {
 
     companion object {
         //var music: MediaPlayer = MediaPlayer()
-        fun newInstance(music: MediaPlayer) = FragmentMain(music)
+        fun newInstance() = FragmentMain()
     }
 
 

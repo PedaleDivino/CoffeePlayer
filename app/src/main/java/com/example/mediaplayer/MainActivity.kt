@@ -15,18 +15,22 @@ class MainActivity : AppCompatActivity(){
 
     var musicMain = MediaPlayer()
 
+    //var stringProva: String = "AAAAAA"
+
+    var music: AudioHandler = AudioHandler
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.viewer)
 
-        loadFragment(FragmentMain.newInstance(musicMain))
+        loadFragment(FragmentMain.newInstance())
         bottom_navigation.setOnNavigationItemSelectedListener { item ->
             var fragment : Fragment
 
             when (item.itemId){
 
                 R.id.home -> {
-                    fragment = FragmentMain(musicMain)
+                    fragment = FragmentMain()
                     loadFragment(fragment)
                     true
                 }

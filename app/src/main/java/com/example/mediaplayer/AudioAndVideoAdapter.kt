@@ -16,6 +16,8 @@ import com.example.mediaplayer.DB.AudioAndVideoDatabaseHandler
 
 class AudioAndVideoAdapter(private var list: ArrayList<AudioAndVideo>, private val context: Context, var musicPlayer: MediaPlayer, var fragment: Fragment): RecyclerView.Adapter<AudioAndVideoAdapter.ViewHolder>() {
 
+    var music: AudioHandler = AudioHandler
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(context).inflate(R.layout.recycler_tracks, parent, false)
         return ViewHolder(view)
@@ -56,10 +58,15 @@ class AudioAndVideoAdapter(private var list: ArrayList<AudioAndVideo>, private v
 
                     Toast.makeText(context, uri.toString(), Toast.LENGTH_LONG).show()
 
-                    if (musicPlayer ==null) {
+                    music.createMusic(context, uri)
+                    music.startMusic()
+
+                    changeFragmentOnMusicStart(fragment)
+
+                    /*if (musicPlayer ==null) {
                         musicPlayer = MediaPlayer.create(context, uri)
                         musicPlayer.start()
-                        MainActivity().loadFragment(FragmentMain(musicPlayer))
+                        //MainActivity().loadFragment(FragmentMain())
                     }
                     else {
                         if (musicPlayer.isPlaying){
@@ -79,7 +86,7 @@ class AudioAndVideoAdapter(private var list: ArrayList<AudioAndVideo>, private v
                         fragmentTransaction.replace(R.layout.player_play, fragment)
                         fragmentTransaction.addToBackStack(null)
                         fragmentTransaction.commit()*/
-                    }
+                    }*/
                 }
 
 

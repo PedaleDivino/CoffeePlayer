@@ -8,10 +8,14 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.mediaplayer.DB.AudioAndVideo
+import com.example.mediaplayer.DB.AudioAndVideoDatabaseHandler
 
 
 class SassariMusic : AppCompatActivity() {
     val CHOOSE_FROM_DEVICE = 1001
+    var dbHandler : AudioAndVideoDatabaseHandler?= null
+    var trackList: ArrayList<AudioAndVideo> = ArrayList()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -67,7 +71,6 @@ class SassariMusic : AppCompatActivity() {
         if (requestCode == CHOOSE_FROM_DEVICE && resultCode == RESULT_OK) {
             if (data != null) {
                 val uri: Uri? = data.data
-                Toast.makeText(this, uri.toString(), Toast.LENGTH_LONG).show()
                 val cR: ContentResolver = this.getContentResolver()
                 val type = cR.getType(uri!!)
                 var path : String? = ""
@@ -78,10 +81,25 @@ class SassariMusic : AppCompatActivity() {
                     path = getVideoPath(uri)
                     Toast.makeText(this, "File video selezionato", Toast.LENGTH_LONG).show()
                 }
-                val addTracksInt : Intent = Intent(this, add_tracks::class.java)
-                addTracksInt.putExtra("Path", path)
-                addTracksInt.putExtra("Type", type)
-                startActivity(addTracksInt)
+                dbHandler = AudioAndVideoDatabaseHandler(this)
+                trackList = dbHandler!!.readTracks()
+                var controllo = true
+                for (i in 0 until trackList.size) {
+                    if (trackList[i].filePath == path) {
+                        controllo = false
+                        break
+                    }
+                }
+                if (controllo) {
+                    val addTracksInt : Intent = Intent(this, add_tracks::class.java)
+                    addTracksInt.putExtra("Path", path)
+                    addTracksInt.putExtra("Type", type)
+                    startActivity(addTracksInt)
+                }
+                else {
+                    Toast.makeText(this, "FILE GIA SELEZIONATO", Toast.LENGTH_LONG).show()
+                    startActivity(Intent(this, SassariMusic::class.java))
+                }
             }
         } else {
             Toast.makeText(this, "Non è stato selezionato nessun file", Toast.LENGTH_LONG).show()

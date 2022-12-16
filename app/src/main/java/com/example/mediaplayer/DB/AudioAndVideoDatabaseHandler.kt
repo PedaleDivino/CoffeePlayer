@@ -11,8 +11,8 @@ import kotlin.collections.ArrayList
 
 class AudioAndVideoDatabaseHandler(context: Context): SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
     override fun onCreate(db: SQLiteDatabase?) {
-        var CREATE_TODO_TABLE="CREATE TABLE $TABLE_FILE ($KEY_FILE_ID INTEGER PRIMARY KEY, $KEY_FILE_NAME TEXT, $KEY_FILE_TYPE TEXT, $KEY_FILE_PATH TEXT)"
-        db?.execSQL(CREATE_TODO_TABLE)
+        var CREATE_FILE_TABLE="CREATE TABLE $TABLE_FILE ($KEY_FILE_ID INTEGER PRIMARY KEY, $KEY_FILE_NAME TEXT, $KEY_FILE_TYPE TEXT, $KEY_FILE_PATH TEXT)"
+        db?.execSQL(CREATE_FILE_TABLE)
     }
 
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
@@ -84,7 +84,6 @@ class AudioAndVideoDatabaseHandler(context: Context): SQLiteOpenHelper(context, 
         var list: ArrayList<AudioAndVideo> = ArrayList()                       //  Variabile "list" che è un ArrayList di tipo AudioAndVideo che conterrà tutti i dati dei file salvati nel database
         var selectAll = "SELECT * FROM $TABLE_FILE"                            //  Variabile "selectAll" di tipo stringa che salva la query da porre al database (che in questo caso richiede tutta la tabella TABLE_FILE)
         var cursor: Cursor = db.rawQuery(selectAll, null)           //  Variabile "cursor" di tipo Cursor che fornisce un interfaccia al risultato della query che poniamo al database e richiamo di una funzione rawQuery sul database
-        //var file=AudioAndVideo()                                               //  Variabile "file" di tipo AudioAndVideo che serve per compilare i file prima di metterli nella lista
 
         if (cursor.moveToFirst()) {                                            //  Se il risultato della query non è vuota punta il cursore alla prima riga del risultato
             do {                                                                    //  Inizio di un ciclo do while
@@ -98,6 +97,68 @@ class AudioAndVideoDatabaseHandler(context: Context): SQLiteOpenHelper(context, 
             } while (cursor.moveToNext())                                           //  Ripeto il ciclo se il cursore non ha finito di leggere i risultato della query e passa alla prossima riga
         }
         return list                                                            //  Ritorno l'ArrayList "list" che contiene tutti i file
+    }
+
+    //  Funzione che ritorna un file che ha come ID l'intero passato come parametro
+    @SuppressLint("Range")
+    fun readMP3Tracks(): ArrayList<AudioAndVideo>{
+        var db: SQLiteDatabase = readableDatabase           //  Variabile "db" di tipo SQLiteDatabase che può accedere al database
+        var list: ArrayList<AudioAndVideo> = ArrayList()    //  Variabile "list" che è un ArrayList di tipo AudioAndVideo che conterrà tutti i dati dei file che hanno il tipo = a "mp3"
+
+        var cursor: Cursor = db.query(          //  Variabile "cursor" di tipo Cursor che fornisce un interfaccia al risultato della query che poniamo al database e richiamo di una funzione query sul database
+            TABLE_FILE,                         //  Indico a quale tabella stiamo facendo la query
+            null,                       //  Indico che colonne voglio nel ritorno dell'operazione (ponendo null indico che voglio tutte le colonne)
+            KEY_FILE_TYPE+"=?",         //  Indico che la condizione sul tipo del file sarà passato nel prossimo parametro
+            arrayOf("mp3"),                     //  Indico il tipo del file che voglio trovare (in questo caso mp3)
+            null,                       //  Indico di non fare il groupBy
+            null,                        //  Indico di non fare il having
+            null,                       //  Indico di non fare l'orderBy
+            null)                         //  Indico di non mettere un limite al numero di righe da restituire e chiudo il richiamo della funzione query
+
+        if (cursor.moveToFirst()) {                                            //  Se il risultato della query non è vuota punta il cursore alla prima riga del risultato
+            do {                                                                    //  Inizio di un ciclo do while
+                var file=AudioAndVideo()
+                file.id=cursor.getInt(cursor.getColumnIndex(KEY_FILE_ID))                       //  Passo alla variabile file l'id del file corrente
+                file.fileName = cursor.getString(cursor.getColumnIndex(KEY_FILE_NAME))          //  Passo alla variabile file il nome del file corrente
+                file.fileType = cursor.getString(cursor.getColumnIndex(KEY_FILE_TYPE))          //  Passo alla variabile file il tipe del file corrente
+                file.filePath = cursor.getString(cursor.getColumnIndex(KEY_FILE_PATH))          //  Passo alla variabile file il path del file corrente
+
+                list.add(file)                                                                  //  Aggiungo il file appena compilato alla lista
+            } while (cursor.moveToNext())                                           //  Ripeto il ciclo se il cursore non ha finito di leggere i risultato della query e passa alla prossima riga
+        }
+
+        return list         //  Ritorno l'ArrayList "list" che contiene tutti i file
+    }
+
+    //  Funzione che ritorna un file che ha come ID l'intero passato come parametro
+    @SuppressLint("Range")
+    fun readMP4Tracks(): ArrayList<AudioAndVideo>{
+        var db: SQLiteDatabase = readableDatabase           //  Variabile "db" di tipo SQLiteDatabase che può accedere al database
+        var list: ArrayList<AudioAndVideo> = ArrayList()    //  Variabile "list" che è un ArrayList di tipo AudioAndVideo che conterrà tutti i dati dei file che hanno il tipo = a "mp4"
+
+        var cursor: Cursor = db.query(          //  Variabile "cursor" di tipo Cursor che fornisce un interfaccia al risultato della query che poniamo al database e richiamo di una funzione query sul database
+            TABLE_FILE,                         //  Indico a quale tabella stiamo facendo la query
+            null,                       //  Indico che colonne voglio nel ritorno dell'operazione (ponendo null indico che voglio tutte le colonne)
+            KEY_FILE_TYPE+"=?",         //  Indico che la condizione sul tipo del file sarà passato nel prossimo parametro
+            arrayOf("mp4"),                     //  Indico il tipo del file che voglio trovare (in questo caso mp4)
+            null,                       //  Indico di non fare il groupBy
+            null,                        //  Indico di non fare il having
+            null,                       //  Indico di non fare l'orderBy
+            null)                         //  Indico di non mettere un limite al numero di righe da restituire e chiudo il richiamo della funzione query
+
+        if (cursor.moveToFirst()) {                                            //  Se il risultato della query non è vuota punta il cursore alla prima riga del risultato
+            do {                                                                    //  Inizio di un ciclo do while
+                var file=AudioAndVideo()
+                file.id=cursor.getInt(cursor.getColumnIndex(KEY_FILE_ID))                       //  Passo alla variabile file l'id del file corrente
+                file.fileName = cursor.getString(cursor.getColumnIndex(KEY_FILE_NAME))          //  Passo alla variabile file il nome del file corrente
+                file.fileType = cursor.getString(cursor.getColumnIndex(KEY_FILE_TYPE))          //  Passo alla variabile file il tipe del file corrente
+                file.filePath = cursor.getString(cursor.getColumnIndex(KEY_FILE_PATH))          //  Passo alla variabile file il path del file corrente
+
+                list.add(file)                                                                  //  Aggiungo il file appena compilato alla lista
+            } while (cursor.moveToNext())                                           //  Ripeto il ciclo se il cursore non ha finito di leggere i risultato della query e passa alla prossima riga
+        }
+
+        return list         //  Ritorno l'ArrayList "list" che contiene tutti i file
     }
 
 

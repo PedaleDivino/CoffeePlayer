@@ -64,7 +64,6 @@ class FragmentPlayer : Fragment() {
         }
 
 
-
         disc = playerPlay.findViewById(R.id.albumImageId)
         discAnimation()
 

@@ -65,8 +65,6 @@ class FragmentMain() : Fragment() {
             file.filePath = t.filePath
             file.fileType = t.fileType
 
-            //Log.d("Lista", t.toDoName.toString())
-
             fileListItem!!.add(file)
         }
 

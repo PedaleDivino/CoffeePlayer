@@ -28,7 +28,6 @@ class add_tracks : AppCompatActivity() {
             if (fileNameEdit.text.isBlank()){
                 fileNameEdit.setError("Non può essere lasciato vuoto")
             } else {
-                Toast.makeText(this, "Else", Toast.LENGTH_SHORT).show()
                 val fileName : String = fileNameEdit.text.toString()
                 if (typeFile == "audio/mpeg"){
                     val file = AudioAndVideo(null, fileName, "mp3", extraUri)

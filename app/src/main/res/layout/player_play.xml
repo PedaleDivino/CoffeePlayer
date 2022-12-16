@@ -118,6 +118,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
                     android:layout_centerVertical="true"
+                    android:backgroundTint="#00FFFFFF"
                     android:src="@drawable/skip_back" />
 
                 <ImageButton
@@ -127,6 +128,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
+                    android:backgroundTint="#00FFFFFF"
                     android:src="@drawable/skip_next" />
                 <!-- android:layout_toEndOf="@+id/playButton" -->
 
@@ -142,6 +144,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
+                    android:backgroundTint="#00FFFFFF"
                     android:src="@drawable/play"
                     android:visibility="gone" />
 
@@ -151,6 +154,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
+                    android:backgroundTint="#00FFFFFF"
                     android:src="@drawable/pause"
                     android:visibility="visible" />
 

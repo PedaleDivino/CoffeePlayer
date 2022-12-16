@@ -2,6 +2,7 @@ package com.example.mediaplayer
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -70,13 +71,20 @@ class FragmentPlayer : Fragment() {
             music.pauseMusic()
         }
 
+        skipNext.setOnClickListener(){
+            var newPath = getNextTrack(music.idTrack!!)
+            if (newPath != null){
+                music.skipForward(newPath)
+            }
+            else {
+                music.idTrack = trackList[0].id
+                newPath = trackList[0].filePath
+                music.createMusic(thiscontext, Uri.parse(newPath))
 
-
-
+            }
+        }
 
         return playerPlay
-
-
 
     }
 
@@ -97,6 +105,27 @@ class FragmentPlayer : Fragment() {
                 else {
                     music.idTrack = trackList[i+1].id
                     path = trackList[i+1].filePath
+                    return path
+                }
+            }
+        }
+        return path
+    }
+
+
+    //  Prendi la track precedente della playlist (l'ultima track fa ricominciare la playlist)
+    fun getPreviousTrack(id: Int): String? {
+        var path: String ?= null
+        for (i in 0 until trackList.size) {
+            if (trackList[i].id == music.idTrack) {
+                if (i == 0) {
+                    music.idTrack = trackList[trackList.size-1].id
+                    path = trackList[trackList.size-1].filePath
+                    return path
+                }
+                else {
+                    music.idTrack = trackList[i-1].id
+                    path = trackList[i-1].filePath
                     return path
                 }
             }

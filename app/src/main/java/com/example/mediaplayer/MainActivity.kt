@@ -47,6 +47,29 @@ class MainActivity : AppCompatActivity(){
             }
         }
 
+        bottom_navigation.setOnNavigationItemReselectedListener { item ->
+            var fragment : Fragment
+
+            when (item.itemId){
+
+                R.id.home -> {
+                    fragment = FragmentMain()
+                    loadFragment(fragment)
+                    true
+                }
+
+                R.id.play -> {
+                    fragment = FragmentPlayer()
+                    loadFragment(fragment)
+                    true
+                }
+                else -> {
+                    false
+                }
+
+            }
+        }
+
         /*val bottone: Button = findViewById(R.id.aaa)
         bottone.setOnClickListener() {
             requestRuntimePermission()

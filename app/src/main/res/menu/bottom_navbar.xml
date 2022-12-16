@@ -10,6 +10,11 @@
         android:id="@+id/play"
         android:enabled="true"
         android:icon="@drawable/smth"
-        android:title="@string/play"/>
+        android:title="play"/>
+    <item
+        android:id="@+id/video"
+        android:enabled="true"
+        android:icon="@drawable/play"
+        android:title="video"/>
 
 </menu>

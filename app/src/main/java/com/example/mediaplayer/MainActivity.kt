@@ -40,6 +40,11 @@ class MainActivity : AppCompatActivity(){
                     loadFragment(fragment)
                     true
                 }
+                R.id.video -> {
+                    fragment = FragmentVideo()
+                    loadFragment(fragment)
+                    true
+                }
                 else -> {
                     false
                 }

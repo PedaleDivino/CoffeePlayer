@@ -15,7 +15,7 @@ import com.example.mediaplayer.DB.AudioAndVideo
 import com.example.mediaplayer.DB.AudioAndVideoDatabaseHandler
 
 
-class AudioAndVideoAdapter(private var list: ArrayList<AudioAndVideo>, private val context: Context, var musicPlayer: MediaPlayer, var fragment: Fragment): RecyclerView.Adapter<AudioAndVideoAdapter.ViewHolder>() {
+class AudioAndVideoAdapter(private var list: ArrayList<AudioAndVideo>, private val context: Context, var fragment: Fragment): RecyclerView.Adapter<AudioAndVideoAdapter.ViewHolder>() {
 
     var music: AudioHandler = AudioHandler
 

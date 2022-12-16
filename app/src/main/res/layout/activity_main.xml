@@ -77,7 +77,7 @@
             android:textColor="@color/mainBackground"
             />
 
-        <ImageView
+        <ImageButton
 
             android:id="@+id/skip_main"
             android:layout_width="wrap_content"
@@ -85,7 +85,7 @@
             android:layout_alignParentEnd="true"
             android:src="@drawable/skip_main" />
 
-        <ImageView
+        <ImageButton
 
             android:id="@+id/play_main"
             android:layout_width="wrap_content"
@@ -94,7 +94,7 @@
             android:src="@drawable/play_main"
             android:visibility="visible" />
 
-        <ImageView
+        <ImageButton
 
             android:id="@+id/pause_main"
             android:layout_width="wrap_content"

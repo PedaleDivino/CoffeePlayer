@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,6 +13,8 @@ import android.view.animation.AnimationUtils
 import android.view.animation.LinearInterpolator
 import android.widget.ImageButton
 import android.widget.ImageView
+import android.widget.TextView
+import android.widget.Toast
 import androidx.core.graphics.drawable.toDrawable
 import androidx.fragment.app.Fragment
 import com.example.mediaplayer.DB.AudioAndVideo
@@ -38,12 +41,18 @@ class FragmentPlayer : Fragment() {
         var pause = playerPlay.findViewById(R.id.pauseButtonId) as ImageButton
         var skipNext = playerPlay.findViewById(R.id.skipNextButton) as ImageButton
         var skipBack = playerPlay.findViewById(R.id.skipBackButton) as ImageButton
+        var nameOfTrack = playerPlay.findViewById(R.id.trackNameId) as TextView
 
         dbHandler = AudioAndVideoDatabaseHandler(thiscontext)
 
         trackList = dbHandler!!.readTracks()
 
-        music.idTrack
+        if (music.trackName != "") {
+            nameOfTrack.text = music.trackName
+        }
+        else {
+            nameOfTrack.text = "No track selected"
+        }
 
         if (music.isPlaying) {
             pause.visibility = View.VISIBLE
@@ -60,27 +69,76 @@ class FragmentPlayer : Fragment() {
         discAnimation()
 
         play.setOnClickListener() {
-            play.visibility = View.GONE
-            pause.visibility = View.VISIBLE
-            music.startMusic()
+            if (music.idTrack != null) {
+                play.visibility = View.GONE
+                pause.visibility = View.VISIBLE
+                music.startMusic()
+            }
+            else {
+                Toast.makeText(thiscontext, "Nessuna traccia selezionata", Toast.LENGTH_LONG).show()
+            }
         }
 
         pause.setOnClickListener() {
-            play.visibility = View.VISIBLE
-            pause.visibility = View.GONE
-            music.pauseMusic()
+            if (music.idTrack != null) {
+                play.visibility = View.VISIBLE
+                pause.visibility = View.GONE
+                music.pauseMusic()
+            }
+            else {
+                Toast.makeText(thiscontext, "Nessuna traccia selezionata", Toast.LENGTH_LONG).show()
+            }
         }
 
         skipNext.setOnClickListener(){
-            var newPath = getNextTrack(music.idTrack!!)
-            if (newPath != null){
-                music.skipForward(newPath)
+            if (music.idTrack == null) {
+                Toast.makeText(thiscontext, "Nessuna traccia selezionata", Toast.LENGTH_LONG).show()
             }
             else {
-                music.idTrack = trackList[0].id
-                newPath = trackList[0].filePath
-                music.createMusic(thiscontext, Uri.parse(newPath))
+                Log.d("ID TRACK prima" , music.idTrack.toString())
+                music.isPlaying = true
+                play.visibility = View.GONE
+                pause.visibility = View.VISIBLE
+                var newPath = getNextTrack(music.idTrack!!)
+                if (newPath != null){
+                    music.skipForward(thiscontext, Uri.parse(newPath))
+                    nameOfTrack.text = music.trackName
+                }
+                else {
+                    music.idTrack = trackList[0].id
+                    music.trackName = trackList[0].fileName.toString()
+                    newPath = trackList[0].filePath
+                    music.createMusic(thiscontext, Uri.parse(newPath))
+                    music.startMusic()
+                    nameOfTrack.text = music.trackName
+                }
+                Log.d("ID TRACK dopo" , music.idTrack.toString())
+            }
+        }
 
+        skipBack.setOnClickListener(){
+            if (music.idTrack == null) {
+                Toast.makeText(thiscontext, "Nessuna traccia selezionata", Toast.LENGTH_LONG).show()
+            }
+            else {
+                Log.d("ID TRACK prima" , music.idTrack.toString())
+                music.isPlaying = true
+                play.visibility = View.GONE
+                pause.visibility = View.VISIBLE
+                var newPath = getPreviousTrack(music.idTrack!!)
+                if (newPath != null){
+                    music.skipBack(thiscontext, Uri.parse(newPath))
+                    nameOfTrack.text = music.trackName
+                }
+                else {
+                    music.idTrack = trackList[0].id
+                    music.trackName = trackList[0].fileName.toString()
+                    newPath = trackList[0].filePath
+                    music.createMusic(thiscontext, Uri.parse(newPath))
+                    music.startMusic()
+                    nameOfTrack.text = music.trackName
+                }
+                Log.d("ID TRACK dopo" , music.idTrack.toString())
             }
         }
 
@@ -96,14 +154,16 @@ class FragmentPlayer : Fragment() {
     fun getNextTrack(id: Int): String? {
         var path: String ?= null
         for (i in 0 until trackList.size) {
-            if (trackList[i].id == music.idTrack) {
+            if (trackList[i].id == id) {
                 if (i == trackList.size-1) {
                     music.idTrack = trackList[0].id
+                    music.trackName = trackList[0].fileName.toString()
                     path = trackList[0].filePath
                     return path
                 }
                 else {
                     music.idTrack = trackList[i+1].id
+                    music.trackName = trackList[i+1].fileName.toString()
                     path = trackList[i+1].filePath
                     return path
                 }
@@ -117,14 +177,16 @@ class FragmentPlayer : Fragment() {
     fun getPreviousTrack(id: Int): String? {
         var path: String ?= null
         for (i in 0 until trackList.size) {
-            if (trackList[i].id == music.idTrack) {
+            if (trackList[i].id == id) {
                 if (i == 0) {
                     music.idTrack = trackList[trackList.size-1].id
+                    music.trackName = trackList[trackList.size-1].fileName.toString()
                     path = trackList[trackList.size-1].filePath
                     return path
                 }
                 else {
                     music.idTrack = trackList[i-1].id
+                    music.trackName = trackList[i-1].fileName.toString()
                     path = trackList[i-1].filePath
                     return path
                 }

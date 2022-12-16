@@ -3,6 +3,7 @@ package com.example.mediaplayer
 import android.content.Context
 import android.media.MediaPlayer
 import android.net.Uri
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -58,8 +59,11 @@ class AudioAndVideoAdapter(private var list: ArrayList<AudioAndVideo>, private v
 
                     Toast.makeText(context, uri.toString(), Toast.LENGTH_LONG).show()
 
+                    music.idTrack = fileList[todoPosition].id
+                    music.trackName = file.fileName.toString()
                     music.createMusic(context, uri)
                     music.startMusic()
+                    Log.d("ID TRACK" , music.idTrack.toString())
 
                     changeFragmentOnMusicStart(fragment)
                 }

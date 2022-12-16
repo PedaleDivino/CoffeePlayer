@@ -8,6 +8,7 @@ object AudioHandler {
 
     var musicPlayer = MediaPlayer()
     var isPlaying = false
+    var trackName = ""
     var idTrack: Int ?= null
 
     fun createMusic(context: Context, path: Uri) {
@@ -26,18 +27,19 @@ object AudioHandler {
         isPlaying = true
     }
 
-    fun skipForward(path: String) {
+    fun skipForward(context: Context, path: Uri) {
         if (musicPlayer.isPlaying) {
             musicPlayer.stop()
         }
-        musicPlayer.setDataSource(path)
+        musicPlayer = MediaPlayer.create(context, path)
         musicPlayer.start()
     }
 
-    fun skipBack() {
+    fun skipBack(context: Context, path: Uri) {
         if (musicPlayer.isPlaying) {
             musicPlayer.stop()
         }
+        musicPlayer = MediaPlayer.create(context, path)
         musicPlayer.start()
     }
 

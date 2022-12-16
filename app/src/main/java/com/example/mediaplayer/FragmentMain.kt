@@ -4,9 +4,7 @@ import android.Manifest.permission.READ_EXTERNAL_STORAGE
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.media.MediaPlayer
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -54,7 +52,7 @@ class FragmentMain() : Fragment() {
 
         dbHandler= AudioAndVideoDatabaseHandler(thiscontext)
 
-        fileList = dbHandler!!.readToDo()
+        fileList = dbHandler!!.readTracks()
         fileList!!.reverse()
 
         for(t in fileList!!.iterator()) {

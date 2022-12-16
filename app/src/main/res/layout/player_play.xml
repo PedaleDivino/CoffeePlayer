@@ -97,6 +97,8 @@
             android:id="@+id/trackControls"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="60dp"
+            android:layout_marginEnd="60dp"
             android:layout_below="@+id/trackFlowId">
 
             <RelativeLayout
@@ -104,14 +106,12 @@
 
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true">
+                android:layout_centerInParent="true">
 
                 <!-- skip BACK/FORWARD Controls START !-->
 
 
-                <ImageView
+                <ImageButton
 
                     android:id="@+id/skipBackButton"
                     android:layout_width="wrap_content"
@@ -120,14 +120,15 @@
                     android:layout_centerVertical="true"
                     android:src="@drawable/skip_back" />
 
-                <ImageView
+                <ImageButton
 
                     android:id="@+id/skipNextButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
-                    android:layout_toEndOf="@+id/playButton"
                     android:src="@drawable/skip_next" />
+                <!-- android:layout_toEndOf="@+id/playButton" -->
 
 
                 <!-- skip BACK/FORWARD Controls END !-->
@@ -135,25 +136,23 @@
 
                 <!-- PLAY/PAUSE Controls START !-->
 
-                <ImageView
+                <ImageButton
 
                     android:id="@+id/playButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_toEndOf="@+id/skipBackButton"
+                    android:layout_centerInParent="true"
                     android:src="@drawable/play"
-                    android:visibility="visible" />
+                    android:visibility="gone" />
 
-                <ImageView
+                <ImageButton
 
-                    android:id="@+id/pauseButton"
+                    android:id="@+id/pauseButtonId"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_toEndOf="@+id/skipBackButton"
+                    android:layout_centerInParent="true"
                     android:src="@drawable/pause"
-                    android:visibility="gone" />
+                    android:visibility="visible" />
 
                 <!-- PLAY/PAUSE Controls END !-->
 

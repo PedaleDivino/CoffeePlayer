@@ -62,31 +62,6 @@ class AudioAndVideoAdapter(private var list: ArrayList<AudioAndVideo>, private v
                     music.startMusic()
 
                     changeFragmentOnMusicStart(fragment)
-
-                    /*if (musicPlayer ==null) {
-                        musicPlayer = MediaPlayer.create(context, uri)
-                        musicPlayer.start()
-                        //MainActivity().loadFragment(FragmentMain())
-                    }
-                    else {
-                        if (musicPlayer.isPlaying){
-                            musicPlayer.stop()
-                        }
-                        musicPlayer = MediaPlayer.create(context, uri)
-                        musicPlayer.start()
-                        changeFragmentOnMusicStart(fragment)
-
-                        /*MainActivity().loadFragment(FragmentPlayer())
-
-                        val fragment: Fragment = FragmentPlayer()
-                        //var playerPlay : View = (R.layout.player_play)
-
-                        val fragmentManager: FragmentManager = getActivity().getSupportFragmentManager()
-                        val fragmentTransaction: FragmentTransaction = fragmentManager.beginTransaction()
-                        fragmentTransaction.replace(R.layout.player_play, fragment)
-                        fragmentTransaction.addToBackStack(null)
-                        fragmentTransaction.commit()*/
-                    }*/
                 }
 
 
@@ -95,7 +70,7 @@ class AudioAndVideoAdapter(private var list: ArrayList<AudioAndVideo>, private v
 
         fun getFile(id: Int): AudioAndVideo {
             var db: AudioAndVideoDatabaseHandler = AudioAndVideoDatabaseHandler(context)
-            return db.readAtodo(id)
+            return db.readATrack(id)
         }
 
         fun changeFragmentOnMusicStart (fragment : Fragment) {

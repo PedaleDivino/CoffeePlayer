@@ -6,7 +6,6 @@ import android.content.Context
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
-import com.example.mediaplayer.MainActivity
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -53,7 +52,7 @@ class AudioAndVideoDatabaseHandler(context: Context): SQLiteOpenHelper(context, 
 
     //  Funzione che ritorna un file che ha come ID l'intero passato come parametro
     @SuppressLint("Range")
-    fun readAtodo(id: Int): AudioAndVideo{
+    fun readATrack(id: Int): AudioAndVideo{
         var db: SQLiteDatabase = readableDatabase           //  Variabile "db" di tipo SQLiteDatabase che può accedere al database
 
         var cursor: Cursor = db.query(          //  Variabile "cursor" di tipo Cursor che fornisce un interfaccia al risultato della query che poniamo al database e richiamo di una funzione query sul database
@@ -80,7 +79,7 @@ class AudioAndVideoDatabaseHandler(context: Context): SQLiteOpenHelper(context, 
 
     //  Funzione che ritorna un array di file contenente tutti i file che abbiamo aggiunto alla tabella
     @SuppressLint("Range")
-    fun readToDo(): ArrayList<AudioAndVideo> {
+    fun readTracks(): ArrayList<AudioAndVideo> {
         var db: SQLiteDatabase = readableDatabase                              //  Variabile "db" di tipo SQLiteDatabase che può accedere al database
         var list: ArrayList<AudioAndVideo> = ArrayList()                       //  Variabile "list" che è un ArrayList di tipo AudioAndVideo che conterrà tutti i dati dei file salvati nel database
         var selectAll = "SELECT * FROM $TABLE_FILE"                            //  Variabile "selectAll" di tipo stringa che salva la query da porre al database (che in questo caso richiede tutta la tabella TABLE_FILE)

@@ -57,15 +57,26 @@ class AudioAndVideoAdapter(private var list: ArrayList<AudioAndVideo>, private v
                     var file = getFile(fileList[todoPosition].id!!)
                     val uri: Uri =  Uri.parse(file.filePath.toString())
 
-                    Toast.makeText(context, uri.toString(), Toast.LENGTH_LONG).show()
+                    if (file.fileType == "mp3") {
+                        music.idTrack = file.id
+                        music.trackName = file.fileName.toString()
+                        music.createMusic(context, uri)
+                        music.startMusic()
+                        Log.d("ID TRACK" , music.idTrack.toString())
 
-                    music.idTrack = fileList[todoPosition].id
-                    music.trackName = file.fileName.toString()
-                    music.createMusic(context, uri)
-                    music.startMusic()
-                    Log.d("ID TRACK" , music.idTrack.toString())
+                        changeFragmentOnMusicStart(fragment)
+                    }
 
-                    changeFragmentOnMusicStart(fragment)
+                    if (file.fileType == "mp4") {
+                        music.idTrack = file.id
+                        music.trackName = file.fileName.toString()
+                        music.createMusic(context, uri)
+                        music.startMusic()
+                        Log.d("ID TRACK" , music.idTrack.toString())
+
+                        changeFragmentOnMusicStart(fragment)
+                    }
+
                 }
 
 

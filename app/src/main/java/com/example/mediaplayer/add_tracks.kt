@@ -34,8 +34,7 @@ class add_tracks : AppCompatActivity() {
             if (fileNameEdit.text.isBlank()) {   //Controllo se l'EditText è stato lasciato vuoto
                 fileName = File(extraUri).name  //Se l'EditText è stato lasciato vuoto prende il nome del file originale
             } else {
-                fileName =
-                    fileNameEdit.text.toString() //Prende la stringa inserita all'interno dell'editText dall'utente
+                fileName = fileNameEdit.text.toString() //Prende la stringa inserita all'interno dell'editText dall'utente
             }
             if (typeFile == "audio/mpeg") {
                 if (!fileName.contains(".mp3")) {    //Controlla se fileName non contiene l'estensione del file .mp3
@@ -51,7 +50,7 @@ class add_tracks : AppCompatActivity() {
             val file = AudioAndVideo(null, fileName, "mp4", extraUri)
             dbHandler!!.createFile(file)    //Richiama il metodo createFile per l'aggiunta del nuovo file al database
             Toast.makeText(this, "File video aggiunto", Toast.LENGTH_LONG).show()
+            startActivity(Intent(this, MainActivity::class.java))   //Avvia la MainActivity
         }
-        startActivity(Intent(this, MainActivity::class.java))   //Avvia la MainActivity
     }
 }

@@ -5,11 +5,15 @@ import android.Manifest.permission.READ_EXTERNAL_STORAGE
 import android.content.pm.PackageManager
 import android.media.MediaPlayer
 import android.os.Bundle
+import android.widget.ImageButton
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
+import com.google.android.exoplayer2.ExoPlayer
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.viewer.*
+import kotlinx.android.synthetic.main.viewer.view.*
 
 class MainActivity : AppCompatActivity(){
 
@@ -18,10 +22,16 @@ class MainActivity : AppCompatActivity(){
     //var stringProva: String = "AAAAAA"
 
     var music: AudioHandler = AudioHandler
+    var video: VideoHandler = VideoHandler
+    var provona: Prova = Prova
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.viewer)
+
+        provona.provino = viewer.findViewById(R.id.bottom_navigation) as BottomNavigationView
+
+        video.videoPlayer = ExoPlayer.Builder(this).build()
 
         loadFragment(FragmentMain.newInstance())
         bottom_navigation.setOnNavigationItemSelectedListener { item ->
@@ -43,6 +53,7 @@ class MainActivity : AppCompatActivity(){
                 R.id.video -> {
                     fragment = FragmentVideo()
                     loadFragment(fragment)
+                    viewer.bottom_navigation.visibility = BottomNavigationView.GONE
                     true
                 }
                 else -> {

@@ -12,7 +12,7 @@
 
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/bottom_navigation">
+        android:layout_centerInParent="true">
 
         <com.google.android.exoplayer2.ui.StyledPlayerView
             android:id="@+id/video_player_view"
@@ -22,15 +22,17 @@
             app:surface_type="surface_view"
             app:use_controller="true"/>
 
+        <ImageButton
+            android:id="@+id/magheggioButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/smth"
+            android:layout_alignParentEnd="true">
+        </ImageButton>
+
     </RelativeLayout>
 
 
 
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottom_navigation"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        app:menu="@menu/bottom_navbar" />
 
 </RelativeLayout>

@@ -18,6 +18,7 @@ import com.example.mediaplayer.DB.AudioAndVideoDatabaseHandler
 class AudioAndVideoAdapter(private var list: ArrayList<AudioAndVideo>, private val context: Context, var fragment: Fragment): RecyclerView.Adapter<AudioAndVideoAdapter.ViewHolder>() {
 
     var music: AudioHandler = AudioHandler
+    var video: VideoHandler = VideoHandler
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(context).inflate(R.layout.recycler_tracks, parent, false)
@@ -42,11 +43,10 @@ class AudioAndVideoAdapter(private var list: ArrayList<AudioAndVideo>, private v
         var fileName = itemView.findViewById(R.id.trackNameId) as TextView
         var filePath = itemView.findViewById(R.id.trackPathId) as TextView
 
-        var dbHandler : AudioAndVideoDatabaseHandler?= null
+        var dbHandler : AudioAndVideoDatabaseHandler = AudioAndVideoDatabaseHandler(context)
 
         fun bindView(file: AudioAndVideo) {
             fileName.text = file.fileName
-            filePath.text = file.filePath
             fileName.setOnClickListener(this)
         }
 
@@ -68,13 +68,11 @@ class AudioAndVideoAdapter(private var list: ArrayList<AudioAndVideo>, private v
                     }
 
                     if (file.fileType == "mp4") {
-                        music.idTrack = file.id
-                        music.trackName = file.fileName.toString()
-                        music.createMusic(context, uri)
-                        music.startMusic()
-                        Log.d("ID TRACK" , music.idTrack.toString())
+                        video.idTrack = file.id
+                        video.trackName = file.fileName.toString()
+                        video.startPlaylistInPosition(dbHandler.readMP4Tracks(), file.id!!)
 
-                        changeFragmentOnMusicStart(fragment)
+                        changeFragmentOnVideoStart(fragment)
                     }
 
                 }
@@ -90,6 +88,10 @@ class AudioAndVideoAdapter(private var list: ArrayList<AudioAndVideo>, private v
 
         fun changeFragmentOnMusicStart (fragment : Fragment) {
             fragment.requireActivity().supportFragmentManager.beginTransaction().replace(R.id.viewer, FragmentPlayer()).commit()
+        }
+
+        fun changeFragmentOnVideoStart (fragment : Fragment) {
+            fragment.requireActivity().supportFragmentManager.beginTransaction().replace(R.id.viewer, FragmentVideo()).commit()
         }
     }
 }

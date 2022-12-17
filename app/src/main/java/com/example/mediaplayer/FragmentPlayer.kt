@@ -45,7 +45,7 @@ class FragmentPlayer : Fragment() {
 
         dbHandler = AudioAndVideoDatabaseHandler(thiscontext)
 
-        trackList = dbHandler!!.readTracks()
+        trackList = dbHandler!!.readMP3Tracks()
 
         if (music.trackName != "") {
             nameOfTrack.text = music.trackName

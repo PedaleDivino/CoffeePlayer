@@ -20,4 +20,5 @@
         android:layout_alignParentBottom="true"
         app:menu="@menu/bottom_navbar" />
 
+
 </RelativeLayout>

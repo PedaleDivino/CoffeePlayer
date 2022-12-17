@@ -37,6 +37,7 @@
         android:id="@+id/recyclerViewId"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_above="@+id/miniplayer"
         android:layout_below="@+id/mediaPlayerTitleId"/>
 
     <Button
@@ -83,6 +84,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
+            android:backgroundTint="#00FFFFFF"
             android:src="@drawable/skip_main" />
 
         <ImageButton
@@ -92,6 +94,7 @@
             android:layout_height="wrap_content"
             android:layout_toStartOf="@id/skip_main"
             android:src="@drawable/play_main"
+            android:backgroundTint="#00FFFFFF"
             android:visibility="visible" />
 
         <ImageButton
@@ -101,6 +104,7 @@
             android:layout_height="wrap_content"
             android:layout_toStartOf="@id/skip_main"
             android:src="@drawable/pause_main"
+            android:backgroundTint="#00FFFFFF"
             android:visibility="gone" />
 
     </RelativeLayout>

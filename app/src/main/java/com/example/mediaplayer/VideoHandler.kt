@@ -17,18 +17,30 @@ object VideoHandler {
     for su database
     if i.id == id passato per parametro {save i. break}*/
 
-    fun startPlaylistInPosition (lista: ArrayList<AudioAndVideo>,id: Int) {
+    fun startPlaylistInPosition (playlist: ArrayList<AudioAndVideo>, idFile: Int) {
         var saveID: Int = 0
         if (videoPlayer!!.mediaItemCount != 0) {
             videoPlayer!!.clearMediaItems()
         }
-        for (i in 0 until lista.size) {
-            videoPlayer!!.addMediaItem(MediaItem.fromUri(Uri.parse(lista[i].filePath)))
-            if (lista[i].id == id) {
+        for (i in 0 until playlist.size) {
+            videoPlayer!!.addMediaItem(MediaItem.fromUri(Uri.parse(playlist[i].filePath)))
+            if (playlist[i].id == idFile) {
                 saveID = i
             }
         }
         videoPlayer!!.seekToDefaultPosition(saveID)
+    }
+
+    fun removeFileFromExoPlayer(playlist: ArrayList<AudioAndVideo>, idFile: Int) {
+        var saveID: Int = 0
+        for (i in 0 until playlist.size) {
+            if (playlist[i].id == idFile) {
+                saveID = i
+                break
+            }
+        }
+
+        videoPlayer!!.removeMediaItem(saveID)
     }
 
 }

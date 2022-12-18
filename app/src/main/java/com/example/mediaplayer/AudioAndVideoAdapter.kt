@@ -7,18 +7,21 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mediaplayer.DB.AudioAndVideo
 import com.example.mediaplayer.DB.AudioAndVideoDatabaseHandler
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 
 class AudioAndVideoAdapter(private var list: ArrayList<AudioAndVideo>, private val context: Context, var fragment: Fragment): RecyclerView.Adapter<AudioAndVideoAdapter.ViewHolder>() {
 
     var music: AudioHandler = AudioHandler
     var video: VideoHandler = VideoHandler
+    var provona: Prova = Prova
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(context).inflate(R.layout.recycler_tracks, parent, false)
@@ -41,23 +44,28 @@ class AudioAndVideoAdapter(private var list: ArrayList<AudioAndVideo>, private v
     inner class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView), View.OnClickListener {
         var fileList = list
         var fileName = itemView.findViewById(R.id.trackNameId) as TextView
-        var filePath = itemView.findViewById(R.id.trackPathId) as TextView
+        var fileDelete = itemView.findViewById(R.id.buttonDeleteId) as Button
+
 
         var dbHandler : AudioAndVideoDatabaseHandler = AudioAndVideoDatabaseHandler(context)
 
         fun bindView(file: AudioAndVideo) {
             fileName.text = file.fileName
             fileName.setOnClickListener(this)
+            fileDelete.setOnClickListener(this)
         }
 
         override fun onClick(p0: View?) {
-            var todoPosition: Int = adapterPosition
+            var filePosition: Int = absoluteAdapterPosition
             when(p0!!.id) {
                 fileName.id -> {
-                    var file = getFile(fileList[todoPosition].id!!)
+                    var file = getFile(fileList[filePosition].id!!)
                     val uri: Uri =  Uri.parse(file.filePath.toString())
 
                     if (file.fileType == "mp3") {
+                        if (video.videoPlayer!!.isPlaying) {
+                            video.videoPlayer!!.pause()
+                        }
                         music.idTrack = file.id
                         music.trackName = file.fileName.toString()
                         music.createMusic(context, uri)
@@ -68,22 +76,36 @@ class AudioAndVideoAdapter(private var list: ArrayList<AudioAndVideo>, private v
                     }
 
                     if (file.fileType == "mp4") {
+                        if (music.musicPlayer.isPlaying) {
+                            music.musicPlayer.pause()
+                        }
                         video.idTrack = file.id
                         video.trackName = file.fileName.toString()
                         video.startPlaylistInPosition(dbHandler.readMP4Tracks(), file.id!!)
+                        provona.provino!!.visibility = BottomNavigationView.GONE
 
                         changeFragmentOnVideoStart(fragment)
                     }
 
                 }
 
+                fileDelete.id -> {
+                    var file = getFile(fileList[filePosition].id!!)
+                    if (file.fileType == "mp4") {
+                        video.removeFileFromExoPlayer(dbHandler.readMP4Tracks(), file.id!!)
+                    }
+                    dbHandler.deleteFile(file.id!!)
+                    list.removeAt(filePosition)
+                    notifyItemRemoved(filePosition)
+                    Toast.makeText(context, "${fileName} è stato eliminato", Toast.LENGTH_SHORT).show()
+                }
 
             }
         }
 
         fun getFile(id: Int): AudioAndVideo {
-            var db: AudioAndVideoDatabaseHandler = AudioAndVideoDatabaseHandler(context)
-            return db.readATrack(id)
+            dbHandler = AudioAndVideoDatabaseHandler(context)
+            return dbHandler.readATrack(id)
         }
 
         fun changeFragmentOnMusicStart (fragment : Fragment) {

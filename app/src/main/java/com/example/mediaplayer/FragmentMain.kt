@@ -68,7 +68,6 @@ class FragmentMain() : Fragment() {
             fileListItem!!.add(file)
         }
 
-        fileList!!.reverse()
 
         //disc = findViewById<ImageView>(R.id.albumImageId)
         //discAnimation()
@@ -89,7 +88,7 @@ class FragmentMain() : Fragment() {
             nameOfTrack.text = "No track selected"
         }
 
-        if (music.isPlaying) {
+        if (music.musicPlayer.isPlaying) {
             pause.visibility = View.VISIBLE
             play.visibility = View.GONE
         }
@@ -121,6 +120,7 @@ class FragmentMain() : Fragment() {
         }
 
         skipNext.setOnClickListener(){
+            fileList = dbHandler!!.readMP3Tracks()
             if (music.idTrack == null) {
                 Toast.makeText(thiscontext, "Nessuna traccia selezionata", Toast.LENGTH_LONG).show()
             }
@@ -183,6 +183,8 @@ class FragmentMain() : Fragment() {
     //  Prendi la prossima track della playlist (l'ultima track fa ricominciare la playlist)
     fun getNextTrack(id: Int): String? {
         var path: String ?= null
+        dbHandler = AudioAndVideoDatabaseHandler(thiscontext)
+
         for (i in 0 until fileList!!.size) {
             if (fileList!![i].id == id) {
                 if (i == fileList!!.size-1) {

@@ -7,7 +7,7 @@ import android.net.Uri
 object AudioHandler {
 
     var musicPlayer = MediaPlayer()
-    var isPlaying = false
+    var isPlaying = false  //  SE PO ANCHE LEVARE
     var trackName = ""
     var idTrack: Int ?= null
 

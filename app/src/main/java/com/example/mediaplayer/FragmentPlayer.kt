@@ -54,7 +54,7 @@ class FragmentPlayer : Fragment() {
             nameOfTrack.text = "No track selected"
         }
 
-        if (music.isPlaying) {
+        if (music.musicPlayer.isPlaying) { // isPlaying) {
             pause.visibility = View.VISIBLE
             play.visibility = View.GONE
         }

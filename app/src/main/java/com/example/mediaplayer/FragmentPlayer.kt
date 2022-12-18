@@ -51,6 +51,7 @@ class FragmentPlayer : Fragment() {
         playerPlay.durationTimeId.text = milliSecondsToTimer(music.musicPlayer.duration)
         runnable = Runnable {
             seekBar!!.progress = music.musicPlayer.currentPosition
+            playerPlay.currentTimeId.text = milliSecondsToTimer(music.musicPlayer.currentPosition)
             handler.postDelayed(runnable, 1000)
         }
         handler.postDelayed(runnable, 50)

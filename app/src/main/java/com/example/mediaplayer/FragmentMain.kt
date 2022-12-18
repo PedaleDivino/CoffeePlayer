@@ -8,9 +8,7 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.*
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
@@ -33,6 +31,9 @@ class FragmentMain() : Fragment() {
     private var layoutManager: RecyclerView.LayoutManager? = null
     lateinit var thiscontext: Context
     var music: AudioHandler = AudioHandler
+    var provona: Prova = Prova
+    lateinit var fav: MenuItem
+    var controllo: Boolean = false
 
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -46,6 +47,8 @@ class FragmentMain() : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         var activityMain: View = inflater.inflate(R.layout.activity_main, container, false)
+
+        setHasOptionsMenu(true)
 
         thiscontext = container!!.context
         fileListItem = ArrayList<AudioAndVideo>()
@@ -66,7 +69,16 @@ class FragmentMain() : Fragment() {
 
         miniPlayer = activityMain.findViewById(R.id.miniplayer)
 
-        fileList = dbHandler!!.readTracks()
+        if (provona.typeDisplay == 0) {
+            fileList = dbHandler!!.readTracks()
+        }
+        else if (provona.typeDisplay == 1) {
+            fileList = dbHandler!!.readMP3Tracks()
+        }
+        else {
+            fileList = dbHandler!!.readMP4Tracks()
+        }
+
         fileList!!.reverse()
 
         for (t in fileList!!.iterator()) {
@@ -177,6 +189,39 @@ class FragmentMain() : Fragment() {
                     play.visibility = View.VISIBLE
                 }
             }
+        }
+
+        var mp3 = activityMain.findViewById(R.id.MP3filter) as ImageButton
+        var mp4 = activityMain.findViewById(R.id.MP4filter) as ImageButton
+        var allFiles = activityMain.findViewById(R.id.all) as ImageButton
+        var deleteFilter = activityMain.findViewById(R.id.deleteFilter) as ImageButton
+
+        mp3.setOnClickListener {
+            provona.typeDisplay = 1
+            requireFragmentManager().beginTransaction()
+                .replace(R.id.viewer, FragmentMain())
+                .commit()
+        }
+
+        mp4.setOnClickListener {
+            provona.typeDisplay = 2
+            requireFragmentManager().beginTransaction()
+                .replace(R.id.viewer, FragmentMain())
+                .commit()
+        }
+
+        allFiles.setOnClickListener {
+            provona.typeDisplay = 0
+            requireFragmentManager().beginTransaction()
+                .replace(R.id.viewer, FragmentMain())
+                .commit()
+        }
+
+        deleteFilter.setOnClickListener {
+            provona.controllo = !provona.controllo
+            requireFragmentManager().beginTransaction()
+                .replace(R.id.viewer, FragmentMain())
+                .commit()
         }
 
         return activityMain
@@ -300,38 +345,3 @@ class FragmentMain() : Fragment() {
         }
     }
 }
-
-
-/*
-
-class MainActivity : AppCompatActivity() {
-
-
-
-
-    fun requestRuntimePermission(){
-        if (ActivityCompat.checkSelfPermission(this, READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
-            ActivityCompat.requestPermissions(this, arrayOf(READ_EXTERNAL_STORAGE), 113)
-        }
-        else {
-            val intent: Intent = Intent(this, SassariMusic::class.java)
-            startActivity(intent)
-        }
-    }
-
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
-
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (requestCode == 113)
-                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    Toast.makeText(this, "Permission Granted", Toast.LENGTH_LONG).show()
-                    val intent: Intent = Intent(this, SassariMusic::class.java)
-                    startActivity(intent)
-                }else {
-                    Toast.makeText(this, "Permission Denied", Toast.LENGTH_LONG).show()
-                }
-    }
-
-}
-
- */

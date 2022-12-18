@@ -5,6 +5,7 @@ import android.Manifest.permission.READ_EXTERNAL_STORAGE
 import android.content.pm.PackageManager
 import android.media.MediaPlayer
 import android.os.Bundle
+import android.view.Menu
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.view.animation.LinearInterpolator
@@ -20,9 +21,7 @@ import kotlinx.android.synthetic.main.viewer.view.*
 
 class MainActivity : AppCompatActivity(){
 
-    var musicMain = MediaPlayer()
 
-    //var stringProva: String = "AAAAAA"
 
     var music: AudioHandler = AudioHandler
     var video: VideoHandler = VideoHandler
@@ -101,7 +100,6 @@ class MainActivity : AppCompatActivity(){
             startActivity(intent)
         }*/
     } // fine OnCreate
-
 
 
 

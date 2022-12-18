@@ -35,6 +35,7 @@
         android:layout_alignParentEnd="true"
         android:layout_marginEnd="2dp"
         android:backgroundTint="#00FFFFFF"
+        android:visibility="invisible"
         android:src="@drawable/delete" />
 
     <TextView

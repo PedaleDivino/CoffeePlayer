@@ -1,21 +1,22 @@
 package com.example.mediaplayer
 
+import android.content.ClipData.Item
 import android.content.Context
 import android.media.MediaPlayer
 import android.net.Uri
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.view.menu.MenuView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mediaplayer.DB.AudioAndVideo
 import com.example.mediaplayer.DB.AudioAndVideoDatabaseHandler
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import kotlinx.android.synthetic.main.activity_main.*
 
 
 class AudioAndVideoAdapter(private var list: ArrayList<AudioAndVideo>, private val context: Context, var fragment: Fragment): RecyclerView.Adapter<AudioAndVideoAdapter.ViewHolder>() {
@@ -54,6 +55,12 @@ class AudioAndVideoAdapter(private var list: ArrayList<AudioAndVideo>, private v
             fileName.text = file.fileName
             fileName.setOnClickListener(this)
             fileDelete.setOnClickListener(this)
+            if (provona.controllo){
+                fileDelete.visibility = View.VISIBLE
+            }
+            else {
+                fileDelete.visibility = View.INVISIBLE
+            }
         }
 
         override fun onClick(p0: View?) {
@@ -91,7 +98,9 @@ class AudioAndVideoAdapter(private var list: ArrayList<AudioAndVideo>, private v
                 fileDelete.id -> {
                     var file = getFile(fileList[filePosition].id!!)
                     if (file.fileType == "mp4") {
-                        video.removeFileFromExoPlayer(dbHandler.readMP4Tracks(), file.id!!)
+                        if(video.videoPlayer!!.mediaItemCount != 0)  {
+                            video.removeFileFromExoPlayer(dbHandler.readMP4Tracks(), file.id!!)
+                        }
                     }
                     dbHandler.deleteFile(file.id!!)
                     list.removeAt(filePosition)

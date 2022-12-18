@@ -1,5 +1,6 @@
 package com.example.mediaplayer
 
+import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.content.Context
 import android.net.Uri
@@ -19,11 +20,13 @@ import androidx.core.graphics.drawable.toDrawable
 import androidx.fragment.app.Fragment
 import com.example.mediaplayer.DB.AudioAndVideo
 import com.example.mediaplayer.DB.AudioAndVideoDatabaseHandler
+import com.google.android.exoplayer2.offline.DownloadService.start
 
 
 class FragmentPlayer : Fragment() {
 
     var disc: ImageView? = null
+    var trackText : TextView ?= null
     var music: AudioHandler = AudioHandler
     var trackList: ArrayList<AudioAndVideo> = ArrayList()
     lateinit var thiscontext : Context
@@ -66,6 +69,9 @@ class FragmentPlayer : Fragment() {
 
         disc = playerPlay.findViewById(R.id.albumImageId)
         discAnimation()
+        trackText = playerPlay.findViewById(R.id.trackNameId)
+        musicTitleOnRepeat()
+
 
         play.setOnClickListener() {
             if (music.idTrack != null) {
@@ -214,7 +220,22 @@ class FragmentPlayer : Fragment() {
             }
         })
         disc?.animation = rotate
-
     }
+
+    fun musicTitleOnRepeat(){
+        val repeatTitle = AnimationUtils.loadAnimation(activity,R.anim.repeat_title)
+        repeatTitle.setAnimationListener(object : Animation.AnimationListener {
+            override fun onAnimationStart(p0: Animation?) {
+            }
+
+            override fun onAnimationEnd(p0: Animation?) {
+            }
+
+            override fun onAnimationRepeat(p0: Animation?) {
+            }
+        })
+        trackText?.animation = repeatTitle
+    }
+
 
 }

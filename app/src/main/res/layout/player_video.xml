@@ -20,15 +20,15 @@
             android:layout_height="wrap_content"
             app:auto_show="true"
             app:surface_type="surface_view"
-            app:use_controller="true"/>
+            app:use_controller="true" />
 
         <ImageButton
             android:id="@+id/magheggioButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/smth"
-            android:layout_alignParentEnd="true">
-        </ImageButton>
+            android:layout_alignParentEnd="true"
+            android:backgroundTint="#00FFFFFF"
+            android:src="@drawable/resize"></ImageButton>
 
     </RelativeLayout>
 

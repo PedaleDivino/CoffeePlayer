@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -44,7 +45,7 @@ class AudioAndVideoAdapter(private var list: ArrayList<AudioAndVideo>, private v
     inner class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView), View.OnClickListener {
         var fileList = list
         var fileName = itemView.findViewById(R.id.trackNameId) as TextView
-        var fileDelete = itemView.findViewById(R.id.buttonDeleteId) as Button
+        var fileDelete = itemView.findViewById(R.id.buttonDeleteId) as ImageButton
 
 
         var dbHandler : AudioAndVideoDatabaseHandler = AudioAndVideoDatabaseHandler(context)

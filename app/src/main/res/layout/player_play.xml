@@ -38,7 +38,16 @@
             android:layout_centerHorizontal="true"
             android:scaleType="fitCenter"
             android:layout_marginTop="50dp"
-            android:src="@drawable/album" />
+            android:src="@drawable/album"/>
+
+        <TextView
+            android:id="@+id/overTrackNameId"
+            android:layout_centerInParent="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:text="track name"
+            android:textSize="12sp" />
 
     </RelativeLayout>
 
@@ -168,6 +177,7 @@
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottom_navigation"
+            android:visibility="invisible"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"

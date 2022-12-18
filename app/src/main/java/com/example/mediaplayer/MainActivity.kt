@@ -5,6 +5,9 @@ import android.Manifest.permission.READ_EXTERNAL_STORAGE
 import android.content.pm.PackageManager
 import android.media.MediaPlayer
 import android.os.Bundle
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
+import android.view.animation.LinearInterpolator
 import android.widget.ImageButton
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -71,6 +74,7 @@ class MainActivity : AppCompatActivity(){
                 R.id.home -> {
                     fragment = FragmentMain()
                     loadFragment(fragment)
+
                     true
                 }
 

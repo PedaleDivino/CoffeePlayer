@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mediaplayer.DB.AudioAndVideo
 import com.example.mediaplayer.DB.AudioAndVideoDatabaseHandler
+import com.google.android.exoplayer2.ui.StyledPlayerView
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_main.view.*
 
@@ -87,8 +88,10 @@ class FragmentMain() : Fragment() {
         }
 
 
+
         val miniPlayerButton : View = activityMain.findViewById(R.id.aac)
         val miniPlayerDownButton : View = activityMain.findViewById(R.id.aad)
+
 
         miniPlayerButton.setOnClickListener() {
             movePlayerUP()

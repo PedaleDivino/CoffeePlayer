@@ -80,8 +80,6 @@ class AudioAndVideoAdapter(private var list: ArrayList<AudioAndVideo>, private v
                         if (music.musicPlayer.isPlaying) {
                             music.musicPlayer.pause()
                         }
-                        video.idTrack = file.id
-                        video.trackName = file.fileName.toString()
                         video.startPlaylistInPosition(dbHandler.readMP4Tracks(), file.id!!)
                         provona.provino!!.visibility = BottomNavigationView.GONE
 
@@ -98,7 +96,7 @@ class AudioAndVideoAdapter(private var list: ArrayList<AudioAndVideo>, private v
                     dbHandler.deleteFile(file.id!!)
                     list.removeAt(filePosition)
                     notifyItemRemoved(filePosition)
-                    Toast.makeText(context, "${fileName} è stato eliminato", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, "${file.fileName} è stato eliminato", Toast.LENGTH_SHORT).show()
                 }
 
             }

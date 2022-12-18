@@ -34,7 +34,9 @@ class MainActivity : AppCompatActivity(){
 
         provona.provino = viewer.findViewById(R.id.bottom_navigation) as BottomNavigationView
 
-        video.videoPlayer = ExoPlayer.Builder(this).build()
+        if (video.videoPlayer == null) {
+            video.videoPlayer = ExoPlayer.Builder(this).build()
+        }
 
         loadFragment(FragmentMain.newInstance())
         bottom_navigation.setOnNavigationItemSelectedListener { item ->

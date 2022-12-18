@@ -214,8 +214,8 @@ class FragmentPlayer : Fragment() {
     fun getPreviousTrack(id: Int): String? {
         var path: String ?= null
         for (i in 0 until trackList.size) {         //ciclo per scorrere tutto lista di canzoni preso dal database
-            if (trackList[i].id == id) {            //Ricerca della posizione all'interno della lista di canzoni tramite l'id della traccia
-                if (i == 0) {           //Controllo se la traccia è in prima posizione all'interno della lista
+            if (trackList[i].id == id) {                  //Ricerca della posizione all'interno della lista di canzoni tramite l'id della traccia
+                if (i == 0) {                             //Controllo se la traccia è in prima posizione all'interno della lista
                     //Se è il primo elemento verrà ritornato l'ultimo file nella lista
                     music.idTrack = trackList[trackList.size-1].id
                     music.trackName = trackList[trackList.size-1].fileName.toString()

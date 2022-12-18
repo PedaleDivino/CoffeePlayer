@@ -154,8 +154,6 @@ class FragmentMain() : Fragment() {
                 Toast.makeText(thiscontext, "Nessuna traccia selezionata", Toast.LENGTH_LONG).show()
             } else {
                 if (fileList!!.size != 0) {         //Controlla se la lista di musica contiene almeno un elemento
-                    Log.d("ID TRACK prima", music.idTrack.toString())
-                    music.isPlaying = true
                     play.visibility = View.GONE
                     pause.visibility = View.VISIBLE
                     var newPath = getNextTrack(music.idTrack!!)
@@ -175,7 +173,6 @@ class FragmentMain() : Fragment() {
                     pause.visibility = View.GONE
                     play.visibility = View.VISIBLE
                 }
-                Log.d("ID TRACK dopo", music.idTrack.toString())
             }
         }
 

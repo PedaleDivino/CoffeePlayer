@@ -7,14 +7,12 @@ import android.net.Uri
 object AudioHandler {
 
     var musicPlayer = MediaPlayer()
-    var isPlaying = false  //  SE PO ANCHE LEVARE
     var trackName = ""
     var idTrack: Int ?= null
 
     fun createMusic(context: Context, path: Uri) {
         if (musicPlayer.isPlaying) {
             musicPlayer.stop()
-            isPlaying = false
         }
         musicPlayer = MediaPlayer.create(context, path)
     }
@@ -24,7 +22,6 @@ object AudioHandler {
             musicPlayer.stop()
         }
         musicPlayer.start()
-        isPlaying = true
     }
 
     fun skipForward(context: Context, path: Uri) {
@@ -46,7 +43,6 @@ object AudioHandler {
     fun pauseMusic() {
         if (musicPlayer.isPlaying) {
             musicPlayer.pause()
-            isPlaying = false
         }
     }
 

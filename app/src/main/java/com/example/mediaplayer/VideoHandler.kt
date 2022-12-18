@@ -8,15 +8,10 @@ import com.google.android.exoplayer2.MediaItem
 
 object VideoHandler {
 
-    var videoPlayer : ExoPlayer?= null
-    var isPlaying = false
-    var trackName = ""
-    var idTrack: Int ?= null
+    var videoPlayer : ExoPlayer?= null          //  Variabile di tipo ExoPlayer per gestire video
 
-    /*array = database
-    for su database
-    if i.id == id passato per parametro {save i. break}*/
 
+    //  Funzione che riempie il videoPlayer di path ai video da far partire, e mette l'index della playlist alla posizione del file che ha ID uguale all'idFile passato per parametro
     fun startPlaylistInPosition (playlist: ArrayList<AudioAndVideo>, idFile: Int) {
         var saveID: Int = 0
         if (videoPlayer!!.mediaItemCount != 0) {
@@ -31,6 +26,7 @@ object VideoHandler {
         videoPlayer!!.seekToDefaultPosition(saveID)
     }
 
+    //  Funzione che rimuove dal videoPlayer un video che ha come id del file
     fun removeFileFromExoPlayer(playlist: ArrayList<AudioAndVideo>, idFile: Int) {
         var saveID: Int = 0
         for (i in 0 until playlist.size) {

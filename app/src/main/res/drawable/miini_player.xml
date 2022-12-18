@@ -4,7 +4,7 @@
     <!-- Lower rectangle (border color) -->
     <item>
         <shape android:shape="rectangle">
-            <solid android:color="#FFC32F62"/>
+            <solid android:color="#FF738a83"/>
         </shape>
     </item>
 

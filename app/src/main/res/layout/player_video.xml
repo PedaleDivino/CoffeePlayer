@@ -5,7 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/over"
-    android:background="#E6DEFFF7"
+    android:background="@color/black"
     tools:context=".FragmentVideo">
 
     <RelativeLayout
@@ -17,7 +17,8 @@
         <com.google.android.exoplayer2.ui.StyledPlayerView
             android:id="@+id/video_player_view"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
             app:auto_show="true"
             app:surface_type="surface_view"
             app:use_controller="true" />

@@ -9,4 +9,5 @@
     <color name="white">#FFFFFFFF</color>
     <color name="seekBar">#FFFF4081</color>
     <color name="mainBackground">#FF272635</color>
+    <color name="textSassari">#7EBEAD</color>
 </resources>

@@ -1,38 +1,36 @@
 package com.example.mediaplayer
 
-import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.content.Context
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
+import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.view.animation.LinearInterpolator
-import android.widget.ImageButton
-import android.widget.ImageView
-import android.widget.TextView
-import android.widget.Toast
-import androidx.core.graphics.drawable.toDrawable
+import android.widget.*
 import androidx.fragment.app.Fragment
 import com.example.mediaplayer.DB.AudioAndVideo
 import com.example.mediaplayer.DB.AudioAndVideoDatabaseHandler
-import com.google.android.exoplayer2.offline.DownloadService.start
 import kotlinx.android.synthetic.main.player_play.*
+import kotlinx.android.synthetic.main.player_play.view.*
 
 
 class FragmentPlayer : Fragment() {
 
-    //Dichiarazzione delle variabili
+    //Dichiarazzione delle variabili e valorizzazione
     var disc: ImageView? = null
+    lateinit var runnable: Runnable
+    var handler = Handler()
     var trackText : TextView ?= null
     var music: AudioHandler = AudioHandler
     var trackList: ArrayList<AudioAndVideo> = ArrayList()
     lateinit var thiscontext : Context
     var dbHandler : AudioAndVideoDatabaseHandler ?= null
+    var seekBar : SeekBar ?= null
 
 
     @SuppressLint("MissingInflatedId")
@@ -47,8 +45,34 @@ class FragmentPlayer : Fragment() {
         var skipNext = playerPlay.findViewById(R.id.skipNextButton) as ImageButton
         var skipBack = playerPlay.findViewById(R.id.skipBackButton) as ImageButton
         var nameOfTrack = playerPlay.findViewById(R.id.trackNameId) as TextView
+        seekBar = playerPlay.findViewById(R.id.seekBarId)
+        //Implementazione SeekBar, per la realizzazione è stato usato questo video: https://www.youtube.com/watch?v=3IADVyFod9s
+        seekBar!!.max = music.musicPlayer.duration
+        playerPlay.durationTimeId.text = milliSecondsToTimer(music.musicPlayer.duration)
+        runnable = Runnable {
+            seekBar!!.progress = music.musicPlayer.currentPosition
+            handler.postDelayed(runnable, 1000)
+        }
+        handler.postDelayed(runnable, 50)
+
+        seekBar!!.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener{
+            override fun onProgressChanged(p0: SeekBar?, p1: Int, p2: Boolean) {
+                if (p2){
+                    music.musicPlayer.seekTo(p1)
+                }
+            }
+
+            override fun onStartTrackingTouch(p0: SeekBar?) {
+            }
+
+            override fun onStopTrackingTouch(p0: SeekBar?) {
+            }
+
+        })
 
         dbHandler = AudioAndVideoDatabaseHandler(thiscontext)
+
+
 
         trackList = dbHandler!!.readMP3Tracks()         //Funzione che ritorna una lista di soli file audio
 
@@ -103,6 +127,12 @@ class FragmentPlayer : Fragment() {
             }
         }
 
+        music.musicPlayer.setOnCompletionListener {
+            music.pauseMusic()
+            play.visibility = View.GONE
+            pause.visibility = View.VISIBLE
+        }
+
         skipNext.setOnClickListener(){          //Alla pressione del tasto skipNext
             if (music.idTrack == null) {            //Controlla se l'id della traccia da riprodurre non è nullo
                 //Se è nullo avverte l'utente che è necessario selezionare un file audio
@@ -135,6 +165,9 @@ class FragmentPlayer : Fragment() {
                     pause.visibility = View.GONE
                     play.visibility = View.VISIBLE
                 }
+                //Assegnazione del nuovo valore massimo alla SeekBar e cambio di valore alla TextView per la durata massima del file audio
+                seekBar!!.max = music.musicPlayer.duration
+                playerPlay.durationTimeId.text = milliSecondsToTimer(music.musicPlayer.duration)
                 //Log.d("ID TRACK dopo" , music.idTrack.toString())
             }
         }
@@ -173,6 +206,9 @@ class FragmentPlayer : Fragment() {
                     pause.visibility = View.GONE
                     play.visibility = View.VISIBLE
                 }
+                //Assegnazione del nuovo valore massimo alla SeekBar e cambio di valore alla TextView per la durata massima del file audio
+                seekBar!!.max = music.musicPlayer.duration
+                playerPlay.durationTimeId.text = milliSecondsToTimer(music.musicPlayer.duration)
                 //Log.d("ID TRACK dopo" , music.idTrack.toString())
             }
         }
@@ -256,6 +292,7 @@ class FragmentPlayer : Fragment() {
         disc?.animation = rotate
     }
 
+    //Codice preso e riadattato da stackoverflow, Link: https://stackoverflow.com/questions/43828822/how-to-get-length-of-audio-in-minutes-and-seconds-in-android
     fun musicTitleOnRepeat(){
         val repeatTitle = AnimationUtils.loadAnimation(activity,R.anim.repeat_title)
         repeatTitle.setAnimationListener(object : Animation.AnimationListener {
@@ -269,6 +306,31 @@ class FragmentPlayer : Fragment() {
             }
         })
         trackText?.animation = repeatTitle
+    }
+
+    fun milliSecondsToTimer(milliseconds: Int): String? {
+        var finalTimerString = ""
+        var secondsString = ""
+
+        //Convert total duration into time
+        val hours = (milliseconds / (1000 * 60 * 60)).toInt()
+        val minutes = (milliseconds % (1000 * 60 * 60)).toInt() / (1000 * 60)
+        val seconds = (milliseconds % (1000 * 60 * 60) % (1000 * 60) / 1000).toInt()
+        // Add hours if there
+        if (hours != 0) {
+            finalTimerString = "$hours:"
+        }
+
+        // Pre appending 0 to seconds if it is one digit
+        secondsString = if (seconds == 10) {
+            "0$seconds"
+        } else {
+            "" + seconds
+        }
+        finalTimerString = "$finalTimerString$minutes:$secondsString"
+
+        // return timer string
+        return finalTimerString
     }
 
 

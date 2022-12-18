@@ -16,13 +16,6 @@
         android:theme="@style/Theme.MediaPlayer"
         tools:targetApi="31">
         <activity
-            android:name=".ProvaDB"
-            android:exported="false">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
-        <activity
             android:name=".add_tracks"
             android:exported="false">
             <meta-data

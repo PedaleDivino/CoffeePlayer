@@ -5,6 +5,8 @@ import android.content.ContentResolver
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.os.Environment
+import android.provider.DocumentsContract
 import android.provider.MediaStore
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -26,7 +28,16 @@ class SassariMusic : AppCompatActivity() {
     //Codice preso e riadattato da stackoverflow, link: https://stackoverflow.com/questions/20067508/get-real-path-from-uri-android-kitkat-new-storage-access-framework
     @SuppressLint("Range")
     fun getAudioPath(uri: Uri?): String? {
-        var cursor = contentResolver.query(uri!!, null, null, null, null)
+        if ("com.android.externalstorage.documents".equals(uri!!.getAuthority())){  //Codice preso da stackoverflow, Link: https://stackoverflow.com/questions/17546101/get-real-path-for-uri-android
+            val docId = DocumentsContract.getDocumentId(uri)
+            val split = docId.split(":").toTypedArray()
+            val type = split[0]
+
+            if ("primary".equals(type, ignoreCase = true)) {
+                return Environment.getExternalStorageDirectory().toString() + "/" + split[1]
+            }
+        }
+        var cursor = contentResolver.query(uri, null, null, null, null)
         cursor!!.moveToFirst()
         var document_id = cursor.getString(0)
         document_id = document_id.substring(document_id.lastIndexOf(":") + 1)
@@ -44,7 +55,16 @@ class SassariMusic : AppCompatActivity() {
     //Codice preso e riadattato da stackoverflow, link: https://stackoverflow.com/questions/20067508/get-real-path-from-uri-android-kitkat-new-storage-access-framework
     @SuppressLint("Range")
     fun getVideoPath(uri: Uri?): String? {
-        var cursor = contentResolver.query(uri!!, null, null, null, null)
+        if ("com.android.externalstorage.documents".equals(uri!!.getAuthority())){  //Codice preso da stackoverflow, Link: https://stackoverflow.com/questions/17546101/get-real-path-for-uri-android
+            val docId = DocumentsContract.getDocumentId(uri)
+            val split = docId.split(":").toTypedArray()
+            val type = split[0]
+
+            if ("primary".equals(type, ignoreCase = true)) {
+                return Environment.getExternalStorageDirectory().toString() + "/" + split[1]
+            }
+        }
+        var cursor = contentResolver.query(uri, null, null, null, null)
         cursor!!.moveToFirst()
         var document_id = cursor.getString(0)
         document_id = document_id.substring(document_id.lastIndexOf(":") + 1)

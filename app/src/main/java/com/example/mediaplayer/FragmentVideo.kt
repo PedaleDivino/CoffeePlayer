@@ -21,7 +21,7 @@ import kotlinx.android.synthetic.main.viewer.view.*
 
 class FragmentVideo : Fragment() {
 
-
+    //Inizializzazione delle variabili
     lateinit var thiscontext : Context
     var dbHandler : AudioAndVideoDatabaseHandler?= null
     var video: VideoHandler = VideoHandler
@@ -31,6 +31,7 @@ class FragmentVideo : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
+        //Valorizzazione delle variabili
         var playerVideo : View = inflater.inflate(R.layout.player_video, container, false)
 
         thiscontext = container!!.context
@@ -41,28 +42,27 @@ class FragmentVideo : Fragment() {
 
         var play = playerVideo.findViewById(R.id.magheggioButton) as ImageButton
 
-        play.setOnClickListener() {
-            if (aaaa.provino!!.visibility == BottomNavigationView.GONE) {
+        play.setOnClickListener() {         //Alla pressione del tasto play
+            if (aaaa.provino!!.visibility == BottomNavigationView.GONE) {           //Controllo se la navBar è nascosta
+                //Se è invisibile viene messa come visibile
                 aaaa.provino!!.visibility = BottomNavigationView.VISIBLE
             }
             else {
+                //Se è visibile viene messa come invisibile
                 aaaa.provino!!.visibility = BottomNavigationView.GONE
             }
         }
 
-        //video.videoPlayer = ExoPlayer.Builder(thiscontext).build()
+        //Associazione dell'ExoPlayer alla StyledPlayerView
         var videoPlayer = playerVideo.findViewById(R.id.video_player_view) as StyledPlayerView
         videoPlayer.player = video.videoPlayer
 
-        if(video.videoPlayer!!.mediaItemCount == 0) {
+        if(video.videoPlayer!!.mediaItemCount == 0) {           //Controllo se la playlist interna all'ExoPlayer è vuota
+            //Se vuota richiama la funzione per l'avvio dei video passando come parametri la lista di tutti i video e l'id del primo file video
             video.startPlaylistInPosition(dbHandler!!.readMP4Tracks(), 0)
         }
 
-        /*video.videoPlayer!!.addMediaItem(MediaItem.fromUri(Uri.parse("/storage/emulated/0/Download/A.mp4"))) //0
-        video.videoPlayer!!.addMediaItem(MediaItem.fromUri(Uri.parse("/storage/emulated/0/Download/A.mp4"))) //1
-        video.videoPlayer!!.addMediaItem(MediaItem.fromUri(Uri.parse("/storage/emulated/0/Download/B.mp4"))) //2
-        video.videoPlayer!!.addMediaItem(MediaItem.fromUri(Uri.parse("/storage/emulated/0/Download/A.mp4"))) //3
-        video.videoPlayer!!.seekToDefaultPosition(2)*/
+        //Avvio dell'ExoPlayer
         video.videoPlayer!!.prepare()
         video.videoPlayer!!.play()
         dbHandler = AudioAndVideoDatabaseHandler(thiscontext)

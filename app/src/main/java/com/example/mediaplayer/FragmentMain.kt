@@ -153,21 +153,27 @@ class FragmentMain() : Fragment() {
             if (music.idTrack == null) {
                 Toast.makeText(thiscontext, "Nessuna traccia selezionata", Toast.LENGTH_LONG).show()
             } else {
-                Log.d("ID TRACK prima", music.idTrack.toString())
-                music.isPlaying = true
-                play.visibility = View.GONE
-                pause.visibility = View.VISIBLE
-                var newPath = getNextTrack(music.idTrack!!)
-                if (newPath != null) {
-                    music.skipForward(thiscontext, Uri.parse(newPath))
-                    nameOfTrack.text = music.trackName
+                if (fileList!!.size != 0) {         //Controlla se la lista di musica contiene almeno un elemento
+                    Log.d("ID TRACK prima", music.idTrack.toString())
+                    music.isPlaying = true
+                    play.visibility = View.GONE
+                    pause.visibility = View.VISIBLE
+                    var newPath = getNextTrack(music.idTrack!!)
+                    if (newPath != null) {
+                        music.skipForward(thiscontext, Uri.parse(newPath))
+                        nameOfTrack.text = music.trackName
+                    } else {
+                        music.idTrack = fileList!![0].id
+                        music.trackName = fileList!![0].fileName.toString()
+                        newPath = fileList!![0].filePath
+                        music.createMusic(thiscontext, Uri.parse(newPath))
+                        music.startMusic()
+                        nameOfTrack.text = music.trackName
+                    }
                 } else {
-                    music.idTrack = fileList!![0].id
-                    music.trackName = fileList!![0].fileName.toString()
-                    newPath = fileList!![0].filePath
-                    music.createMusic(thiscontext, Uri.parse(newPath))
-                    music.startMusic()
-                    nameOfTrack.text = music.trackName
+                    music.pauseMusic()
+                    pause.visibility = View.GONE
+                    play.visibility = View.VISIBLE
                 }
                 Log.d("ID TRACK dopo", music.idTrack.toString())
             }

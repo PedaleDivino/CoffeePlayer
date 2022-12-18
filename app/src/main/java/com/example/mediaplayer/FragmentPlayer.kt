@@ -21,10 +21,12 @@ import androidx.fragment.app.Fragment
 import com.example.mediaplayer.DB.AudioAndVideo
 import com.example.mediaplayer.DB.AudioAndVideoDatabaseHandler
 import com.google.android.exoplayer2.offline.DownloadService.start
+import kotlinx.android.synthetic.main.player_play.*
 
 
 class FragmentPlayer : Fragment() {
 
+    //Dichiarazzione delle variabili
     var disc: ImageView? = null
     var trackText : TextView ?= null
     var music: AudioHandler = AudioHandler
@@ -35,8 +37,8 @@ class FragmentPlayer : Fragment() {
 
     @SuppressLint("MissingInflatedId")
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        // Inflate the layout for this fragment
 
+        //Valorizzazione delle variabili
         var playerPlay : View = inflater.inflate(R.layout.player_play, container, false)
         thiscontext = container!!.context
 
@@ -48,20 +50,22 @@ class FragmentPlayer : Fragment() {
 
         dbHandler = AudioAndVideoDatabaseHandler(thiscontext)
 
-        trackList = dbHandler!!.readMP3Tracks()
+        trackList = dbHandler!!.readMP3Tracks()         //Funzione che ritorna una lista di soli file audio
 
-        if (music.trackName != "") {
-            nameOfTrack.text = music.trackName
+        if (music.trackName != "") {            //Controlla se il nome della traccia contenuta in AudioHandler è vuota
+            nameOfTrack.text = music.trackName          //Se non è vuota assegna il nome alla textView
         }
         else {
-            nameOfTrack.text = "No track selected"
+            nameOfTrack.text = "No track selected"          //Se è vuota gli assegna "No track selected" alla textView
         }
 
-        if (music.musicPlayer.isPlaying) { // isPlaying) {
+        if (music.musicPlayer.isPlaying) {            //Controlla se il MediaPlayer sta riproducendo
+            //Se sta riproducendo fa sparire il bottone play e fa comparire il bottone di pause
             pause.visibility = View.VISIBLE
             play.visibility = View.GONE
         }
         else {
+            //Se non sta riproducendo fa sparire il bottone pause e fa comparire il bottone di play
             pause.visibility = View.GONE
             play.visibility = View.VISIBLE
         }
@@ -73,77 +77,103 @@ class FragmentPlayer : Fragment() {
         musicTitleOnRepeat()
 
 
-        play.setOnClickListener() {
-            if (music.idTrack != null) {
+        play.setOnClickListener() {         //Alla pressione del tasto play
+            if (music.idTrack != null) {            //Controlla se l'id della traccia da riprodurre non è nullo
+                //Se non è nullo cambia la visibilità dei tasti e fa partire la musica
                 play.visibility = View.GONE
                 pause.visibility = View.VISIBLE
-                music.startMusic()
+                music.startMusic()          //Funzione per riprodurre la musica
             }
             else {
+                //Se è nullo avverte l'utente che è necessario selezionare un file audio
                 Toast.makeText(thiscontext, "Nessuna traccia selezionata", Toast.LENGTH_LONG).show()
             }
         }
 
-        pause.setOnClickListener() {
-            if (music.idTrack != null) {
+        pause.setOnClickListener() {            //Alla pressione del tasto pause
+            if (music.idTrack != null) {            //Controlla se l'id della traccia da riprodurre non è nullo
+                //Se non è nullo cambia la visibilità dei tasti e mette in pausa la musica
                 play.visibility = View.VISIBLE
                 pause.visibility = View.GONE
-                music.pauseMusic()
+                music.pauseMusic()          //Funzione per mettere in pausa la musica
             }
             else {
+                //Se è nullo avverte l'utente che è necessario selezionare un file audio
                 Toast.makeText(thiscontext, "Nessuna traccia selezionata", Toast.LENGTH_LONG).show()
             }
         }
 
-        skipNext.setOnClickListener(){
-            if (music.idTrack == null) {
+        skipNext.setOnClickListener(){          //Alla pressione del tasto skipNext
+            if (music.idTrack == null) {            //Controlla se l'id della traccia da riprodurre non è nullo
+                //Se è nullo avverte l'utente che è necessario selezionare un file audio
                 Toast.makeText(thiscontext, "Nessuna traccia selezionata", Toast.LENGTH_LONG).show()
             }
             else {
-                Log.d("ID TRACK prima" , music.idTrack.toString())
-                music.isPlaying = true
-                play.visibility = View.GONE
-                pause.visibility = View.VISIBLE
-                var newPath = getNextTrack(music.idTrack!!)
-                if (newPath != null){
-                    music.skipForward(thiscontext, Uri.parse(newPath))
-                    nameOfTrack.text = music.trackName
+                //Log.d("ID TRACK prima" , music.idTrack.toString())
+                //music.isPlaying = true
+                if (trackList.size != 0) {          //Controlla se la lista di musica contiene almeno un elemento
+                    //Cambia la visibilità dei tasti play e pause
+                    play.visibility = View.GONE
+                    pause.visibility = View.VISIBLE
+                    var newPath =
+                        getNextTrack(music.idTrack!!)         //Funzione per la ricerca della traccia successiva da riprodurre
+                    if (newPath != null) {           //Controllo valorizzazione di newPath
+                        //Se newPath è stata valorizzata cambierà la traccia in riproduzione al momento e il nome del brano
+                        music.skipForward(thiscontext, Uri.parse(newPath))
+                        nameOfTrack.text = music.trackName
+                    } else {
+                        //Se non è stato trovato il file successivo da riprodurre fa ripartire la musica dalla prima traccia inseita dall'utente
+                        music.idTrack = trackList[0].id
+                        music.trackName = trackList[0].fileName.toString()
+                        newPath = trackList[0].filePath
+                        music.createMusic(thiscontext, Uri.parse(newPath))
+                        music.startMusic()
+                        nameOfTrack.text = music.trackName
+                    }
+                } else {
+                    music.pauseMusic()
+                    pause.visibility = View.GONE
+                    play.visibility = View.VISIBLE
                 }
-                else {
-                    music.idTrack = trackList[0].id
-                    music.trackName = trackList[0].fileName.toString()
-                    newPath = trackList[0].filePath
-                    music.createMusic(thiscontext, Uri.parse(newPath))
-                    music.startMusic()
-                    nameOfTrack.text = music.trackName
-                }
-                Log.d("ID TRACK dopo" , music.idTrack.toString())
+                //Log.d("ID TRACK dopo" , music.idTrack.toString())
             }
         }
 
         skipBack.setOnClickListener(){
             if (music.idTrack == null) {
+                //Se è nullo avverte l'utente che è necessario selezionare un file audio
                 Toast.makeText(thiscontext, "Nessuna traccia selezionata", Toast.LENGTH_LONG).show()
             }
             else {
-                Log.d("ID TRACK prima" , music.idTrack.toString())
-                music.isPlaying = true
-                play.visibility = View.GONE
-                pause.visibility = View.VISIBLE
-                var newPath = getPreviousTrack(music.idTrack!!)
-                if (newPath != null){
-                    music.skipBack(thiscontext, Uri.parse(newPath))
-                    nameOfTrack.text = music.trackName
+                //Log.d("ID TRACK prima" , music.idTrack.toString())
+                //music.isPlaying = true
+
+                if (trackList.size != 0) {          //Controlla se la lista di musica contiene almeno un elemento
+
+                    //Cambia la visibilità dei tasti play e pause
+                    play.visibility = View.GONE
+                    pause.visibility = View.VISIBLE
+                    var newPath =
+                        getPreviousTrack(music.idTrack!!)         //Funzione per la ricerca della traccia precedente da riprodurre
+                    if (newPath != null) {
+                        //Se newPath è stata valorizzata cambierà la traccia in riproduzione al momento con quella nuova e il nome del brano
+                        music.skipBack(thiscontext, Uri.parse(newPath))
+                        nameOfTrack.text = music.trackName
+                    } else {
+                        //Se non è stato trovato il file precedente da riprodurre fa ripartire la musica dalla prima traccia inseita dall'utente
+                        music.idTrack = trackList[0].id
+                        music.trackName = trackList[0].fileName.toString()
+                        newPath = trackList[0].filePath
+                        music.createMusic(thiscontext, Uri.parse(newPath))
+                        music.startMusic()
+                        nameOfTrack.text = music.trackName
+                    }
+                } else {
+                    music.pauseMusic()
+                    pause.visibility = View.GONE
+                    play.visibility = View.VISIBLE
                 }
-                else {
-                    music.idTrack = trackList[0].id
-                    music.trackName = trackList[0].fileName.toString()
-                    newPath = trackList[0].filePath
-                    music.createMusic(thiscontext, Uri.parse(newPath))
-                    music.startMusic()
-                    nameOfTrack.text = music.trackName
-                }
-                Log.d("ID TRACK dopo" , music.idTrack.toString())
+                //Log.d("ID TRACK dopo" , music.idTrack.toString())
             }
         }
 
@@ -158,15 +188,17 @@ class FragmentPlayer : Fragment() {
     //  Prendi la prossima track della playlist (l'ultima track fa ricominciare la playlist)
     fun getNextTrack(id: Int): String? {
         var path: String ?= null
-        for (i in 0 until trackList.size) {
-            if (trackList[i].id == id) {
-                if (i == trackList.size-1) {
+        for (i in 0 until trackList.size) {         //ciclo per scorrere tutto lista di canzoni preso dal database
+            if (trackList[i].id == id) {            //Ricerca della posizione all'interno della lista di canzoni tramite l'id della traccia
+                if (i == trackList.size-1) {            //Controllo se la traccia è in ultima posizione all'interno della lista
+                    //Se è l'ultimo elemento verrà ritornato il primo file nella lista
                     music.idTrack = trackList[0].id
                     music.trackName = trackList[0].fileName.toString()
                     path = trackList[0].filePath
                     return path
                 }
                 else {
+                    //Se non è l'ultimo elemento ritorna l'elemento successivo della lista
                     music.idTrack = trackList[i+1].id
                     music.trackName = trackList[i+1].fileName.toString()
                     path = trackList[i+1].filePath
@@ -181,15 +213,17 @@ class FragmentPlayer : Fragment() {
     //  Prendi la track precedente della playlist (l'ultima track fa ricominciare la playlist)
     fun getPreviousTrack(id: Int): String? {
         var path: String ?= null
-        for (i in 0 until trackList.size) {
-            if (trackList[i].id == id) {
-                if (i == 0) {
+        for (i in 0 until trackList.size) {         //ciclo per scorrere tutto lista di canzoni preso dal database
+            if (trackList[i].id == id) {            //Ricerca della posizione all'interno della lista di canzoni tramite l'id della traccia
+                if (i == 0) {           //Controllo se la traccia è in prima posizione all'interno della lista
+                    //Se è il primo elemento verrà ritornato l'ultimo file nella lista
                     music.idTrack = trackList[trackList.size-1].id
                     music.trackName = trackList[trackList.size-1].fileName.toString()
                     path = trackList[trackList.size-1].filePath
                     return path
                 }
                 else {
+                    //Se non è il primo elemento ritorna l'elemento precedente della lista
                     music.idTrack = trackList[i-1].id
                     music.trackName = trackList[i-1].fileName.toString()
                     path = trackList[i-1].filePath

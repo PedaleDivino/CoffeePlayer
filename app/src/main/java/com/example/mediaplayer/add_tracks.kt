@@ -44,12 +44,13 @@ class add_tracks : AppCompatActivity() {
                 dbHandler!!.createFile(file)    //Richiama il metodo createFile per l'aggiunta del nuovo file al database
                 Toast.makeText(this, "File audio aggiunto", Toast.LENGTH_LONG).show()
             } else {
-                if (!fileName.contains(".mp4")) //Controlla se fileName non contiene l'estensione del file .mp4
-                    fileName += ".mp4"  //Aggiunge al nome del file .mp3
+                if (!fileName.contains(".mp4")){ //Controlla se fileName non contiene l'estensione del file .mp4
+                        fileName += ".mp4"  //Aggiunge al nome del file .mp3
+                }
+                val file = AudioAndVideo(null, fileName, "mp4", extraUri)
+                dbHandler!!.createFile(file)    //Richiama il metodo createFile per l'aggiunta del nuovo file al database
+                Toast.makeText(this, "File video aggiunto", Toast.LENGTH_LONG).show()
             }
-            val file = AudioAndVideo(null, fileName, "mp4", extraUri)
-            dbHandler!!.createFile(file)    //Richiama il metodo createFile per l'aggiunta del nuovo file al database
-            Toast.makeText(this, "File video aggiunto", Toast.LENGTH_LONG).show()
             startActivity(Intent(this, MainActivity::class.java))   //Avvia la MainActivity
         }
     }

@@ -17,6 +17,7 @@ import com.example.mediaplayer.DB.AudioAndVideo
 import com.example.mediaplayer.DB.AudioAndVideoDatabaseHandler
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.viewer.*
 
 
 class AudioAndVideoAdapter(private var list: ArrayList<AudioAndVideo>, private val context: Context, var fragment: Fragment): RecyclerView.Adapter<AudioAndVideoAdapter.ViewHolder>() {
@@ -74,6 +75,7 @@ class AudioAndVideoAdapter(private var list: ArrayList<AudioAndVideo>, private v
                         if (video.videoPlayer!!.isPlaying) {
                             video.videoPlayer!!.pause()
                         }
+                        provona.pageDisplay = 1
                         music.idTrack = file.id
                         music.trackName = file.fileName.toString()
                         music.createMusic(context, uri)
@@ -87,6 +89,7 @@ class AudioAndVideoAdapter(private var list: ArrayList<AudioAndVideo>, private v
                         if (music.musicPlayer.isPlaying) {
                             music.musicPlayer.pause()
                         }
+                        provona.pageDisplay = 2
                         video.startPlaylistInPosition(dbHandler.readMP4Tracks(), file.id!!)
                         provona.provino!!.visibility = BottomNavigationView.GONE
 
@@ -118,6 +121,7 @@ class AudioAndVideoAdapter(private var list: ArrayList<AudioAndVideo>, private v
 
         fun changeFragmentOnMusicStart (fragment : Fragment) {
             fragment.requireActivity().supportFragmentManager.beginTransaction().replace(R.id.viewer, FragmentPlayer()).commit()
+            provona.provino
         }
 
         fun changeFragmentOnVideoStart (fragment : Fragment) {

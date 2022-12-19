@@ -69,14 +69,20 @@ class FragmentMain() : Fragment() {
 
         miniPlayer = activityMain.findViewById(R.id.miniplayer)
 
-        if (provona.typeDisplay == 0) {
-            fileList = dbHandler!!.readTracks()
-        }
-        else if (provona.typeDisplay == 1) {
-            fileList = dbHandler!!.readMP3Tracks()
-        }
-        else {
-            fileList = dbHandler!!.readMP4Tracks()
+
+        when (provona.typeDisplay) {
+            0 -> {
+                fileList = dbHandler!!.readTracks()
+            }
+            1 -> {
+                fileList = dbHandler!!.readMP3Tracks()
+            }
+            2 -> {
+                fileList = dbHandler!!.readMP4Tracks()
+            }
+            else -> {
+
+            }
         }
 
         fileList!!.reverse()

@@ -5,6 +5,7 @@ import android.Manifest.permission.READ_EXTERNAL_STORAGE
 import android.content.pm.PackageManager
 import android.media.MediaPlayer
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
@@ -37,24 +38,40 @@ class MainActivity : AppCompatActivity(){
             video.videoPlayer = ExoPlayer.Builder(this).build()
         }
 
-        loadFragment(FragmentMain.newInstance())
+
+        when (provona.pageDisplay) {
+            0 -> {
+                loadFragment(FragmentMain.newInstance())
+            }
+            1 -> {
+                loadFragment(FragmentPlayer.newInstance())
+            }
+            2 -> {
+                loadFragment(FragmentVideo.newInstance())
+            }
+        }
+        //loadFragment(FragmentMain.newInstance())
         bottom_navigation.setOnNavigationItemSelectedListener { item ->
             var fragment : Fragment
+            Log.d("${provona.pageDisplay}", "iagvdiuagd")
 
             when (item.itemId){
 
                 R.id.home -> {
+                    provona.pageDisplay = 0
                     fragment = FragmentMain()
                     loadFragment(fragment)
                     true
                 }
 
                 R.id.play -> {
+                    provona.pageDisplay = 1
                     fragment = FragmentPlayer()
                     loadFragment(fragment)
                     true
                 }
                 R.id.video -> {
+                    provona.pageDisplay = 2
                     fragment = FragmentVideo()
                     loadFragment(fragment)
                     viewer.bottom_navigation.visibility = BottomNavigationView.GONE
@@ -67,38 +84,6 @@ class MainActivity : AppCompatActivity(){
             }
         }
 
-        bottom_navigation.setOnNavigationItemReselectedListener { item ->
-            var fragment : Fragment
-
-            when (item.itemId){
-
-                R.id.home -> {
-                    fragment = FragmentMain()
-                    loadFragment(fragment)
-
-                    true
-                }
-
-                R.id.play -> {
-                    fragment = FragmentPlayer()
-                    loadFragment(fragment)
-                    true
-                }
-                else -> {
-                    false
-                }
-
-            }
-        }
-
-        /*val bottone: Button = findViewById(R.id.aaa)
-        bottone.setOnClickListener() {
-            requestRuntimePermission()
-        }*/
-        /*prova.setOnClickListener(){
-            val intent: Intent = Intent(this, SassariMusic::class.java)
-            startActivity(intent)
-        }*/
     } // fine OnCreate
 
 

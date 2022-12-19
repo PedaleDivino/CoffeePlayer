@@ -311,6 +311,7 @@ class FragmentPlayer : Fragment() {
 
     fun milliSecondsToTimer(milliseconds: Int): String? {
         var finalTimerString = ""
+        var minutesString = ""
         var secondsString = ""
 
         //Convert total duration into time
@@ -321,14 +322,18 @@ class FragmentPlayer : Fragment() {
         if (hours != 0) {
             finalTimerString = "$hours:"
         }
-
+        minutesString = if (minutes < 10) {
+            "0$minutes"
+        } else {
+            "" + minutes
+        }
         // Pre appending 0 to seconds if it is one digit
-        secondsString = if (seconds == 10) {
+        secondsString = if (seconds < 10) {
             "0$seconds"
         } else {
             "" + seconds
         }
-        finalTimerString = "$finalTimerString$minutes:$secondsString"
+        finalTimerString = "$finalTimerString$minutesString:$secondsString"
 
         // return timer string
         return finalTimerString

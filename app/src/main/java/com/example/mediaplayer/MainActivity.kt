@@ -2,15 +2,10 @@ package com.example.mediaplayer
 
 
 import android.Manifest.permission.READ_EXTERNAL_STORAGE
+import android.content.pm.ActivityInfo
 import android.content.pm.PackageManager
-import android.media.MediaPlayer
 import android.os.Bundle
 import android.util.Log
-import android.view.Menu
-import android.view.animation.Animation
-import android.view.animation.AnimationUtils
-import android.view.animation.LinearInterpolator
-import android.widget.ImageButton
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -59,6 +54,7 @@ class MainActivity : AppCompatActivity(){
 
                 R.id.home -> {
                     provona.pageDisplay = 0
+                    setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR)            //Permette la libera rotazione dello schermo del dispositivo all'interno del fragmentMain
                     fragment = FragmentMain()
                     loadFragment(fragment)
                     true
@@ -66,12 +62,14 @@ class MainActivity : AppCompatActivity(){
 
                 R.id.play -> {
                     provona.pageDisplay = 1
+                    setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_NOSENSOR)           //Non permette la rotazione dello schermo del dispositivo all'interno del fragmentPlayer
                     fragment = FragmentPlayer()
                     loadFragment(fragment)
                     true
                 }
                 R.id.video -> {
                     provona.pageDisplay = 2
+                    setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR)            //Permette la libera rotazione dello schermo del dispositivo all'interno del fragmentVideo
                     fragment = FragmentVideo()
                     loadFragment(fragment)
                     viewer.bottom_navigation.visibility = BottomNavigationView.GONE

@@ -1,23 +1,15 @@
 package com.example.mediaplayer
 
 import android.content.Context
-import android.media.browse.MediaBrowser
-import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
 import androidx.fragment.app.Fragment
-import com.example.mediaplayer.DB.AudioAndVideo
 import com.example.mediaplayer.DB.AudioAndVideoDatabaseHandler
-import com.google.android.exoplayer2.ExoPlayer
-import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.ui.StyledPlayerView
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import kotlinx.android.synthetic.main.player_video.*
-import kotlinx.android.synthetic.main.viewer.*
-import kotlinx.android.synthetic.main.viewer.view.*
 
 class FragmentVideo : Fragment() {
 

@@ -7,7 +7,6 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import android.widget.*
 import androidx.core.app.ActivityCompat
@@ -16,7 +15,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mediaplayer.DB.AudioAndVideo
 import com.example.mediaplayer.DB.AudioAndVideoDatabaseHandler
-import com.google.android.exoplayer2.ui.StyledPlayerView
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_main.view.*
 
@@ -97,19 +95,13 @@ class FragmentMain() : Fragment() {
             fileListItem!!.add(file)
         }
 
-
-        //disc = findViewById<ImageView>(R.id.albumImageId)
-        //discAnimation()
         val addTracksVideos: View = activityMain.findViewById(R.id.aaa)
         addTracksVideos.setOnClickListener() {
             requestRuntimePermission()
         }
 
-
-
         val miniPlayerButton : View = activityMain.findViewById(R.id.aac)
         val miniPlayerDownButton : View = activityMain.findViewById(R.id.aad)
-
 
         miniPlayerButton.setOnClickListener() {
             movePlayerUP()

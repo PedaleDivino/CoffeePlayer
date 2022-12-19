@@ -2,7 +2,6 @@ package com.example.mediaplayer
 
 import android.net.Uri
 import com.example.mediaplayer.DB.AudioAndVideo
-import com.example.mediaplayer.DB.AudioAndVideoDatabaseHandler
 import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.MediaItem
 

@@ -2,6 +2,7 @@ package com.example.mediaplayer
 
 import android.content.ClipData.Item
 import android.content.Context
+import android.content.pm.ActivityInfo
 import android.media.MediaPlayer
 import android.net.Uri
 import android.util.Log
@@ -120,11 +121,13 @@ class AudioAndVideoAdapter(private var list: ArrayList<AudioAndVideo>, private v
         }
 
         fun changeFragmentOnMusicStart (fragment : Fragment) {
+            fragment.requireActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_NOSENSOR)
             fragment.requireActivity().supportFragmentManager.beginTransaction().replace(R.id.viewer, FragmentPlayer()).commit()
             provona.provino
         }
 
         fun changeFragmentOnVideoStart (fragment : Fragment) {
+            fragment.requireActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR)
             fragment.requireActivity().supportFragmentManager.beginTransaction().replace(R.id.viewer, FragmentVideo()).commit()
         }
     }

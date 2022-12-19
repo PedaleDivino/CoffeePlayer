@@ -1,31 +1,25 @@
 package com.example.mediaplayer
 
-import android.content.ClipData.Item
 import android.content.Context
 import android.content.pm.ActivityInfo
-import android.media.MediaPlayer
 import android.net.Uri
 import android.util.Log
 import android.view.*
-import android.widget.Button
 import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
-import androidx.appcompat.view.menu.MenuView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mediaplayer.DB.AudioAndVideo
 import com.example.mediaplayer.DB.AudioAndVideoDatabaseHandler
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.viewer.*
 
 
 class AudioAndVideoAdapter(private var list: ArrayList<AudioAndVideo>, private val context: Context, var fragment: Fragment): RecyclerView.Adapter<AudioAndVideoAdapter.ViewHolder>() {
 
     var music: AudioHandler = AudioHandler
     var video: VideoHandler = VideoHandler
-    var provona: Prova = Prova
+    var supportVars: Support = Support
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(context).inflate(R.layout.recycler_tracks, parent, false)
@@ -57,7 +51,7 @@ class AudioAndVideoAdapter(private var list: ArrayList<AudioAndVideo>, private v
             fileName.text = file.fileName
             fileName.setOnClickListener(this)
             fileDelete.setOnClickListener(this)
-            if (provona.controllo){
+            if (supportVars.delBtnControl){
                 fileDelete.visibility = View.VISIBLE
             }
             else {
@@ -76,7 +70,7 @@ class AudioAndVideoAdapter(private var list: ArrayList<AudioAndVideo>, private v
                         if (video.videoPlayer!!.isPlaying) {
                             video.videoPlayer!!.pause()
                         }
-                        provona.pageDisplay = 1
+                        supportVars.pageDisplay = 1
                         music.idTrack = file.id
                         music.trackName = file.fileName.toString()
                         music.createMusic(context, uri)
@@ -90,9 +84,9 @@ class AudioAndVideoAdapter(private var list: ArrayList<AudioAndVideo>, private v
                         if (music.musicPlayer.isPlaying) {
                             music.musicPlayer.pause()
                         }
-                        provona.pageDisplay = 2
+                        supportVars.pageDisplay = 2
                         video.startPlaylistInPosition(dbHandler.readMP4Tracks(), file.id!!)
-                        provona.provino!!.visibility = BottomNavigationView.GONE
+                        supportVars.navView!!.visibility = BottomNavigationView.GONE
 
                         changeFragmentOnVideoStart(fragment)
                     }
@@ -123,7 +117,7 @@ class AudioAndVideoAdapter(private var list: ArrayList<AudioAndVideo>, private v
         fun changeFragmentOnMusicStart (fragment : Fragment) {
             fragment.requireActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_NOSENSOR)
             fragment.requireActivity().supportFragmentManager.beginTransaction().replace(R.id.viewer, FragmentPlayer()).commit()
-            provona.provino
+            supportVars.navView
         }
 
         fun changeFragmentOnVideoStart (fragment : Fragment) {

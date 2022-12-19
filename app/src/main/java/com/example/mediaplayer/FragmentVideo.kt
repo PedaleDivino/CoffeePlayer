@@ -17,7 +17,7 @@ class FragmentVideo : Fragment() {
     lateinit var thiscontext : Context
     var dbHandler : AudioAndVideoDatabaseHandler?= null
     var video: VideoHandler = VideoHandler
-    var aaaa: Prova = Prova
+    var supportVars: Support = Support
 
 
 
@@ -35,13 +35,13 @@ class FragmentVideo : Fragment() {
         var play = playerVideo.findViewById(R.id.magheggioButton) as ImageButton
 
         play.setOnClickListener() {         //Alla pressione del tasto play
-            if (aaaa.provino!!.visibility == BottomNavigationView.GONE) {           //Controllo se la navBar è nascosta
+            if (supportVars.navView!!.visibility == BottomNavigationView.GONE) {           //Controllo se la navBar è nascosta
                 //Se è invisibile viene messa come visibile
-                aaaa.provino!!.visibility = BottomNavigationView.VISIBLE
+                supportVars.navView!!.visibility = BottomNavigationView.VISIBLE
             }
             else {
                 //Se è visibile viene messa come invisibile
-                aaaa.provino!!.visibility = BottomNavigationView.GONE
+                supportVars.navView!!.visibility = BottomNavigationView.GONE
             }
         }
 

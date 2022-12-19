@@ -21,6 +21,7 @@ import kotlinx.android.synthetic.main.activity_main.view.*
 
 class FragmentMain() : Fragment() {
 
+    //Dichiarazzione delle variabili e valorizzazione
     var miniPlayer: RelativeLayout? = null
     var dbHandler: AudioAndVideoDatabaseHandler? = null
     private var adapter: AudioAndVideoAdapter? = null
@@ -29,9 +30,8 @@ class FragmentMain() : Fragment() {
     private var layoutManager: RecyclerView.LayoutManager? = null
     lateinit var thiscontext: Context
     var music: AudioHandler = AudioHandler
-    var provona: Prova = Prova
-    lateinit var fav: MenuItem
-    var controllo: Boolean = false
+    var supportVars: Support = Support
+    var video: VideoHandler = VideoHandler
 
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -48,27 +48,22 @@ class FragmentMain() : Fragment() {
 
         setHasOptionsMenu(true)
 
+        //  Valorizzazione delle variabili
         thiscontext = container!!.context
         fileListItem = ArrayList<AudioAndVideo>()
-        adapter = AudioAndVideoAdapter(
-            fileListItem!!,
-            thiscontext,
-            this
-        ) //INIZIALIZZO LA VARIAILE ADAPTER INSERENDO IL VALORE DELLA CLASSE ToDoListApadter (CHE HA BISOGNO DI ARGOMENTI)
+        adapter = AudioAndVideoAdapter(fileListItem!!, thiscontext,this)            //INIZIALIZZO LA VARIAILE ADAPTER INSERENDO IL VALORE DELLA CLASSE ToDoListApadter (CHE HA BISOGNO DI ARGOMENTI)
         fileList = ArrayList<AudioAndVideo>()
-        layoutManager =
-            LinearLayoutManager(thiscontext) //INIZIALIZZO LAYOUTMANAGER CON UN MANAGER DI TIPO VERTICALE (HA BISOGNO DEL CONTESTO)
+        layoutManager = LinearLayoutManager(thiscontext)                                    //INIZIALIZZO LAYOUTMANAGER CON UN MANAGER DI TIPO VERTICALE (HA BISOGNO DEL CONTESTO)
 
-        activityMain.recyclerViewId.layoutManager =
-            layoutManager //ASSOCIO IL LAYOUT MANAGER DA ME CREATO CON IL RECYCLEVIEWID DELL'ACTIVITY
-        activityMain.recyclerViewId.adapter =
-            adapter //ASSOCIO L'ADAPTER DA ME CREATO CON QUELLO DEL RECYCLEVIEWID DELL'ACTIVITY
+        activityMain.recyclerViewId.layoutManager = layoutManager                           //ASSOCIO IL LAYOUT MANAGER DA ME CREATO CON IL RECYCLEVIEWID DELL'ACTIVITY
+        activityMain.recyclerViewId.adapter = adapter                                       //ASSOCIO L'ADAPTER DA ME CREATO CON QUELLO DEL RECYCLEVIEWID DELL'ACTIVITY
         dbHandler = AudioAndVideoDatabaseHandler(thiscontext)
 
         miniPlayer = activityMain.findViewById(R.id.miniplayer)
 
 
-        when (provona.typeDisplay) {
+        //  Riempio fileList in base a quale tipo di visualizzazione è stata selezionata
+        when (supportVars.typeDisplay) {
             0 -> {
                 fileList = dbHandler!!.readTracks()
             }
@@ -83,8 +78,8 @@ class FragmentMain() : Fragment() {
             }
         }
 
+        //  Inverto la playlist e la faccio stampare
         fileList!!.reverse()
-
         for (t in fileList!!.iterator()) {
             val file = AudioAndVideo()
             file.fileName = t.fileName
@@ -95,6 +90,7 @@ class FragmentMain() : Fragment() {
             fileListItem!!.add(file)
         }
 
+        //  Se viene cliccato il bottone di ID "aaa" dell'activityMain richiamo una funzione che fa selezionare un file da aggiungere all'app
         val addTracksVideos: View = activityMain.findViewById(R.id.aaa)
         addTracksVideos.setOnClickListener() {
             requestRuntimePermission()
@@ -103,6 +99,7 @@ class FragmentMain() : Fragment() {
         val miniPlayerButton : View = activityMain.findViewById(R.id.aac)
         val miniPlayerDownButton : View = activityMain.findViewById(R.id.aad)
 
+        //  Se viene cliccato il bottono fa visualizare il miniplayer
         miniPlayerButton.setOnClickListener() {
             movePlayerUP()
             moveMiniPlayerButtonUP()
@@ -112,6 +109,7 @@ class FragmentMain() : Fragment() {
             miniPlayerDownButton.visibility =View.VISIBLE
         }
 
+        //  Se viene cliccato il bottono nasconde il miniplayer
         miniPlayerDownButton.setOnClickListener() {
             movePlayerDOWN()
             moveMiniPlayerButtonDOWN()
@@ -122,35 +120,43 @@ class FragmentMain() : Fragment() {
         }
 
 
+        //Dichiarazzione delle variabili e valorizzazione
         var play = activityMain.findViewById(R.id.play_main) as ImageButton
         var pause = activityMain.findViewById(R.id.pause_main) as ImageButton
         var skipNext = activityMain.findViewById(R.id.skip_main) as ImageButton
         var nameOfTrack = activityMain.findViewById(R.id.trackNameId) as TextView
 
+        //  Se è stata selezionato un audio pongo al TextView del miniplayer il nome dell'audio selezionato
         if (music.trackName != "") {
             nameOfTrack.text = music.trackName
-        } else {
+        }   //  Se NON è stata selezionato un audio pongo al TextView del miniplayer "No track selected"
+        else {
             nameOfTrack.text = "No track selected"
         }
 
+        //  Se l'audio è in riproduzione setto la visibilità di 2 bottoni in un modo
         if (music.musicPlayer.isPlaying) {
             pause.visibility = View.VISIBLE
             play.visibility = View.GONE
-        } else {
+        }  //  Se l'audio NON è in riproduzione setto la visibilità dei 2 bottoni in un modo diverso
+        else {
             pause.visibility = View.GONE
             play.visibility = View.VISIBLE
         }
 
+        //  Se viene cliccato il bottone play modifica la grafica e fa partire l'audio
         play.setOnClickListener() {
             if (music.idTrack != null) {
                 play.visibility = View.GONE
                 pause.visibility = View.VISIBLE
+                video.videoPlayer!!.pause()
                 music.startMusic()
             } else {
                 Toast.makeText(thiscontext, "Nessuna traccia selezionata", Toast.LENGTH_LONG).show()
             }
         }
 
+        //  Se viene cliccato il bottone play modifica la grafica e mette in pausa l'audio
         pause.setOnClickListener() {
             if (music.idTrack != null) {
                 play.visibility = View.VISIBLE
@@ -161,6 +167,7 @@ class FragmentMain() : Fragment() {
             }
         }
 
+        //  Se viene cliccato il bottone skipNext fa una serie di controlli prima di passare al prossimo audio
         skipNext.setOnClickListener() {
             fileList = dbHandler!!.readMP3Tracks()
             if (music.idTrack == null) {
@@ -189,34 +196,39 @@ class FragmentMain() : Fragment() {
             }
         }
 
+        //Dichiarazzione delle variabili e valorizzazione
         var mp3 = activityMain.findViewById(R.id.MP3filter) as ImageButton
         var mp4 = activityMain.findViewById(R.id.MP4filter) as ImageButton
         var allFiles = activityMain.findViewById(R.id.all) as ImageButton
         var deleteFilter = activityMain.findViewById(R.id.deleteFilter) as ImageButton
 
+        //  Se viene cliccato il bottone mp3 modifico la variabile di controllo per la visualizzazione dei file
         mp3.setOnClickListener {
-            provona.typeDisplay = 1
+            supportVars.typeDisplay = 1
             requireFragmentManager().beginTransaction()
                 .replace(R.id.viewer, FragmentMain())
                 .commit()
         }
 
+        //  Se viene cliccato il bottone mp4 modifico la variabile di controllo per la visualizzazione dei file
         mp4.setOnClickListener {
-            provona.typeDisplay = 2
+            supportVars.typeDisplay = 2
             requireFragmentManager().beginTransaction()
                 .replace(R.id.viewer, FragmentMain())
                 .commit()
         }
 
+        //  Se viene cliccato il bottone allFiles modifico la variabile di controllo per la visualizzazione dei file
         allFiles.setOnClickListener {
-            provona.typeDisplay = 0
+            supportVars.typeDisplay = 0
             requireFragmentManager().beginTransaction()
                 .replace(R.id.viewer, FragmentMain())
                 .commit()
         }
 
+        //  Se viene cliccato il bottone deleteFilter modifico la variabile di controllo per la visualizzazione dei bottoni delete
         deleteFilter.setOnClickListener {
-            provona.controllo = !provona.controllo
+            supportVars.delBtnControl = !supportVars.delBtnControl
             requireFragmentManager().beginTransaction()
                 .replace(R.id.viewer, FragmentMain())
                 .commit()
@@ -227,11 +239,11 @@ class FragmentMain() : Fragment() {
 
 
     companion object {
-        //var music: MediaPlayer = MediaPlayer()
         fun newInstance() = FragmentMain()
     }
 
 
+    //  Funzione che richiede e controlla i permessi e richiama la pagina di selezione dei file da aggiungere all'app
     fun requestRuntimePermission() {
 
         if (ActivityCompat.checkSelfPermission(
@@ -287,6 +299,7 @@ class FragmentMain() : Fragment() {
     }
 
 
+    //  Funzione per gestire l'animazione del miniplayer
     fun movePlayerUP() {
         ObjectAnimator.ofFloat(miniPlayer, "translationY", -200f).apply {
             duration = 700
@@ -294,6 +307,7 @@ class FragmentMain() : Fragment() {
         }
     }
 
+    //  Funzione per gestire l'animazione del miniplayer
     fun movePlayerDOWN() {
         ObjectAnimator.ofFloat(miniPlayer, "translationY", 0f).apply {
             duration = 700
@@ -301,6 +315,7 @@ class FragmentMain() : Fragment() {
         }
     }
 
+    //  Funzione per gestire l'animazione del miniplayer
     fun moveMiniPlayerButtonUP() {
         ObjectAnimator.ofFloat(aac, "translationY", -200f).apply {
             duration = 700
@@ -308,6 +323,7 @@ class FragmentMain() : Fragment() {
         }
     }
 
+    //  Funzione per gestire l'animazione del miniplayer
     fun moveMiniPlayerButtonDOWN() {
         ObjectAnimator.ofFloat(aac, "translationY", 0f).apply {
             duration = 700
@@ -315,6 +331,7 @@ class FragmentMain() : Fragment() {
         }
     }
 
+    //  Funzione per gestire l'animazione del miniplayer
     fun moveMiniPlayerDownButtonUP() {
         ObjectAnimator.ofFloat(aad, "translationY", -200f).apply {
             duration = 700
@@ -322,6 +339,7 @@ class FragmentMain() : Fragment() {
         }
     }
 
+    //  Funzione per gestire l'animazione del miniplayer
     fun moveMiniPlayerDownButtonDOWN() {
         ObjectAnimator.ofFloat(aad, "translationY", 0f).apply {
             duration = 700
@@ -329,6 +347,7 @@ class FragmentMain() : Fragment() {
         }
     }
 
+    //  Funzione per gestire l'animazione del miniplayer
     fun moveAddTracksVideosButtonUP() {
         ObjectAnimator.ofFloat(aaa, "translationY", -200f).apply {
             duration = 700
@@ -336,6 +355,7 @@ class FragmentMain() : Fragment() {
         }
     }
 
+    //  Funzione per gestire l'animazione del miniplayer
     fun moveAddTracksVideosButtonDOWN() {
         ObjectAnimator.ofFloat(aaa, "translationY", 0f).apply {
             duration = 700

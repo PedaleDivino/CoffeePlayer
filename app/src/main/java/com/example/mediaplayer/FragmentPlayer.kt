@@ -27,6 +27,7 @@ class FragmentPlayer : Fragment() {
     var handler = Handler()
     var trackText : TextView ?= null
     var music: AudioHandler = AudioHandler
+    var video: VideoHandler = VideoHandler
     var trackList: ArrayList<AudioAndVideo> = ArrayList()
     lateinit var thiscontext : Context
     var dbHandler : AudioAndVideoDatabaseHandler ?= null
@@ -46,6 +47,8 @@ class FragmentPlayer : Fragment() {
         var skipBack = playerPlay.findViewById(R.id.skipBackButton) as ImageButton
         var nameOfTrack = playerPlay.findViewById(R.id.trackNameId) as TextView
         seekBar = playerPlay.findViewById(R.id.seekBarId)
+
+
         //Implementazione SeekBar, per la realizzazione è stato usato questo video: https://www.youtube.com/watch?v=3IADVyFod9s
         seekBar!!.max = music.musicPlayer.duration
         playerPlay.durationTimeId.text = milliSecondsToTimer(music.musicPlayer.duration)
@@ -68,7 +71,6 @@ class FragmentPlayer : Fragment() {
 
             override fun onStopTrackingTouch(p0: SeekBar?) {
             }
-
         })
 
         dbHandler = AudioAndVideoDatabaseHandler(thiscontext)
@@ -107,6 +109,7 @@ class FragmentPlayer : Fragment() {
                 //Se non è nullo cambia la visibilità dei tasti e fa partire la musica
                 play.visibility = View.GONE
                 pause.visibility = View.VISIBLE
+                video.videoPlayer!!.pause()
                 music.startMusic()          //Funzione per riprodurre la musica
             }
             else {
@@ -309,6 +312,7 @@ class FragmentPlayer : Fragment() {
         trackText?.animation = repeatTitle
     }
 
+    //  Funzione che traduce i millisecondi in secondi (Codice preso e riadattato da stackoverflow, Link: https://stackoverflow.com/questions/43828822/how-to-get-length-of-audio-in-minutes-and-seconds-in-android)
     fun milliSecondsToTimer(milliseconds: Int): String? {
         var finalTimerString = ""
         var minutesString = ""

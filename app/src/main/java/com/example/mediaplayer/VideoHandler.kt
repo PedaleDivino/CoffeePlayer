@@ -5,6 +5,7 @@ import com.example.mediaplayer.DB.AudioAndVideo
 import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.MediaItem
 
+//  Una classe speciale di nome VideoHandler che può avere solo una istanza che gestisce il player degli MP4
 object VideoHandler {
 
     var videoPlayer : ExoPlayer?= null          //  Variabile di tipo ExoPlayer per gestire video
